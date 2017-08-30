@@ -5,22 +5,20 @@
 <div class="grid showcase is-loading" {{ if .Paginator.HasNext }}data-next-url="{{ .Paginator.Next.URL }}"{{ end }}>
   {{ range $paginator.Pages }}
     <section class="grid-item section">
-      <div class="container">
-        <figure class="card">
-          <a href="{{ .Permalink }}" class="card__image">
-            <img src="{{ .Params.coverimage }}">
-          </a>
-          <figcaption class="card__caption">
-            <h2 class="title is-3">
-              <!-- <a href="{{ .Permalink }}">{{ .Title }}</a> -->
-              {{ .Title }}
-            </h2>
-            <div class="card__description">
-              <p>{{ .Params.excerpt }}</p>
-            </div>
-          </figcaption>
-        </figure>
-      </div>
+      <figure class="card">
+        <a href="{{ .Permalink }}" class="card__image">
+          <img src="{{ .Params.coverimage }}">
+        </a>
+        <figcaption class="card__caption">
+          <h2 class="title is-3">
+            <!-- <a href="{{ .Permalink }}">{{ .Title }}</a> -->
+            {{ .Title }}
+          </h2>
+          <div class="card__description">
+            <p>{{ .Params.excerpt }}</p>
+          </div>
+        </figcaption>
+      </figure>
     </section>
   {{ end }}
 </div>
