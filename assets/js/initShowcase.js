@@ -5,7 +5,6 @@ import textToDomElement from './textToDomElement'
 
 let selector        = '.showcase',
     itemSelector    = '.showcase > .grid-item',
-    gutter          = '.gutter-sizer',
     percentPosition = true
 
 export default function initShowcase() {
@@ -13,7 +12,7 @@ export default function initShowcase() {
   if (!showcase) return
 
   imagesLoaded(showcase).on('always', () => {
-    let packery = new Packery(showcase, { itemSelector, gutter, percentPosition })
+    let packery = new Packery(showcase, { itemSelector, percentPosition })
     showcase.classList.remove('is-loading')
 
     lazyScroll
