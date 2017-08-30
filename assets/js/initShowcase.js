@@ -3,15 +3,17 @@ import imagesLoaded     from 'imagesloaded'
 import lazyScroll       from 'scroll-lazy'
 import textToDomElement from './textToDomElement'
 
-let selector      = '.showcase',
-    itemSelector  = '.showcase__item'
+let selector        = '.showcase',
+    itemSelector    = '.showcase > .grid-item',
+    gutter          = '.gutter-sizer',
+    percentPosition = true
 
 export default function initShowcase() {
   const showcase = document.querySelector(selector);
   if (!showcase) return
 
   imagesLoaded(showcase).on('always', () => {
-    let packery = new Packery(showcase, { itemSelector })
+    let packery = new Packery(showcase, { itemSelector, gutter, percentPosition })
     showcase.classList.remove('is-loading')
 
     lazyScroll
