@@ -20,6 +20,7 @@
     "livereload": "^0.6.0",
     "lory.js": "^2.2.1",
     "masonry-layout": "^4.1.1",
+    "packery": "^2.1.1",
     "scroll-lazy": "^1.0.3"
   },
   "devDependencies": {

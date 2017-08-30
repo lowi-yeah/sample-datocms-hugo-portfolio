@@ -2561,13 +2561,20 @@ osenv@0:
     os-homedir "^1.0.0"
     os-tmpdir "^1.0.0"
 
-outlayer@^2.1.0:
+outlayer@^2.0.0, outlayer@^2.1.0:
   version "2.1.0"
   resolved "https://registry.yarnpkg.com/outlayer/-/outlayer-2.1.0.tgz#83b7beefc19becd3278c8ade988d268788d6f93d"
   dependencies:
     ev-emitter "^1.0.0"
     fizzy-ui-utils "^2.0.0"
     get-size "^2.0.2"
+
+packery@^2.1.1:
+  version "2.1.1"
+  resolved "https://registry.yarnpkg.com/packery/-/packery-2.1.1.tgz#ec3711e96562b5ae206641e06854f899064a1b55"
+  dependencies:
+    get-size "^2.0.2"
+    outlayer "^2.0.0"
 
 pako@~0.2.0:
   version "0.2.9"

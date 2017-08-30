@@ -1,40 +1,35 @@
-import Masonry from 'masonry-layout';
-import imagesLoaded from 'imagesloaded';
-import lazyScroll from 'scroll-lazy';
-import textToDomElement from './textToDomElement';
+import Packery          from 'packery'
+import imagesLoaded     from 'imagesloaded'
+import lazyScroll       from 'scroll-lazy'
+import textToDomElement from './textToDomElement'
 
-const selector = '.showcase';
-const itemSelector = '.showcase__item';
+let selector      = '.showcase',
+    itemSelector  = '.showcase__item'
 
 export default function initShowcase() {
   const showcase = document.querySelector(selector);
-  if (!showcase) return;
+  if (!showcase) return
 
   imagesLoaded(showcase).on('always', () => {
-    showcase.classList.remove('is-loading');
-    const masonry = new Masonry(showcase, { itemSelector });
+    let packery = new Packery(showcase, { itemSelector })
+    showcase.classList.remove('is-loading')
 
     lazyScroll
     .on(next => {
-      const nextUrl = showcase.dataset.nextUrl;
-      if (!nextUrl) return;
+      let nextUrl = showcase.dataset.nextUrl
+      if (!nextUrl) return
 
       fetch(nextUrl)
       .then(res => res.text())
       .then(body => {
-        const newShowcase = textToDomElement(body, selector);
-        const newNextUrl = newShowcase.dataset.nextUrl;
-        const newItems = [...newShowcase.querySelectorAll(itemSelector)];
+        let newShowcase = textToDomElement(body, selector),
+            newNextUrl  = newShowcase.dataset.nextUrl,
+            newItems    = [...newShowcase.querySelectorAll(itemSelector)]
 
         imagesLoaded(newShowcase).on('always', () => {
-          showcase.dataset.nextUrl = newNextUrl;
-          newItems.forEach(el => showcase.appendChild(el));
-          masonry.appended(newItems);
-          masonry.layout();
-          next();
-        });
-      })
-    })
-    .watch({ threshold: 300 });
-  });
-}
+          showcase.dataset.nextUrl = newNextUrl
+          newItems.forEach(el => showcase.appendChild(el))
+          packery.appended(newItems)
+          packery.layout()
+          next()})})})
+    .watch({ threshold: 300 })})}

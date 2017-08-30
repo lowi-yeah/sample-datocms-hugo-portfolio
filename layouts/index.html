@@ -2,9 +2,9 @@
 
 {{ $paginator := .Paginate (where .Data.Pages "Type" "work") }}
 
-<div class="showcase is-loading" {{ if .Paginator.HasNext }}data-next-url="{{ .Paginator.Next.URL }}"{{ end }}>
+<div class="grid showcase is-loading" {{ if .Paginator.HasNext }}data-next-url="{{ .Paginator.Next.URL }}"{{ end }}>
   {{ range $paginator.Pages }}
-    <div class="showcase__item">
+    <div class="grid-item showcase__item">
       <figure class="card">
         <a href="{{ .Permalink }}" class="card__image">
           <img src="{{ .Params.coverimage }}">
