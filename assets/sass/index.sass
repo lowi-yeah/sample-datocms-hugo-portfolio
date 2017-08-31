@@ -3,25 +3,15 @@
 // bulma variables
 @import "../../node_modules/bulma/sass/utilities/initial-variables"
 
-// my variables
+// custom variables
 @import "./variables/fonts"
 @import "./variables/colors"
 @import "./variables/elements"
 
+@import "./mixins"
+
 // bulma framework
 @import "./bulma"
 
-// custom elements
-// @import "./blocks/*"
-
-.grid-item 
-  width: 33.333% 
-  +mobile 
-    width: 100% 
-  
-  &.size-2 
-    width: 66.666% 
-    +mobile 
-      width: 100% 
-
-// 
+// custom
+@import "./custom"

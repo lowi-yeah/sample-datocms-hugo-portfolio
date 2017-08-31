@@ -57,42 +57,29 @@ module.exports = (dato, root, i18n) => {
   });
 
 
-  // PROJECT
+  // Entries
   // ————————————————————————————————
 
   // Create directory (or empty it if already exists)...
-  root.directory('content/project', dir => {
-    // ...and for each project stored online...
-    dato.projects.forEach((project, index) => {
-      // ...create a markdown file with all the metadata in the frontmatter
-      dir.createPost(`${project.slug}.md`, 'yaml', {
-        frontmatter: {
-          title:       project.title,
-          images:      project.gallery.map(item => item.url({ w: 800, fm: 'jpg', auto: 'compress' })),
-          date:        project.date,
-          category:    project.category,
-          location:    project.location,
-          latlng:      project.latlng,
-          size:        project.size,
-          weight:      index,
-          seoMetaTags: toHtml(project.seoMetaTags) },
-        content: project.description }) }) })
+  root.directory('content/entry', dir => {
+    // ...and for each entry stored online...
+    dato.entries.forEach((entry, index) => {
 
-  // PROJECT
-  // ————————————————————————————————
-  root.directory('content/studio', dir => {
-    dato.studios.forEach((studio, index) => {
-      dir.createPost(`${studio.slug}.md`, 'yaml', {
-        frontmatter:  { title:       studio.title,
-                        images:      studio.gallery.map(item => item.url({w: 800, 
-                                                                          fm: 'jpg', 
-                                                                          auto: 'compress'})),
-                        date:        studio.date,
-                        category:    studio.category,
-                        location:    studio.location,
-                        latlng:      studio.latlng,
-                        size:        studio.size,
-                        weight:      index,
-                        seoMetaTags: toHtml(studio.seoMetaTags) },
-        content:      studio.description }) }) }) 
+      // console.log('entry', index, entry)
+
+      // ...create a markdown file with all the metadata in the frontmatter
+      dir.createPost(`${entry.slug}.md`, 'yaml', {
+        frontmatter: {
+          title:       entry.title,
+          images:      entry.gallery.map(item => item.url({ w: 800, auto: 'compress' })),
+          date:        entry.date,
+          category:    entry.category,
+          location:    entry.location,
+          latlng:      entry.latlng,
+          size:        entry.size,
+          weight:      entry.date,
+          emphasis:    entry.emphasis,
+          seoMetaTags: toHtml(entry.seoMetaTags) },
+        content: entry.description }) }) })
+
 }
