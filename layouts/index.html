@@ -1,22 +1,26 @@
 {{ partial "header.html" . }}
 
-{{ $paginator := .Paginate (where .Data.Pages "Type" "work") }}
+{{ $paginator := .Paginate (where .Data.Pages "Type" "project") }}
 
 <div class="grid showcase is-loading" {{ if .Paginator.HasNext }}data-next-url="{{ .Paginator.Next.URL }}"{{ end }}>
   {{ range $paginator.Pages }}
-    <section class="grid-item section">
-      <figure class="card">
-        <a href="{{ .Permalink }}" class="card__image">
-          <img src="{{ .Params.coverimage }}">
+
+    <section 
+      {{ if .Params.size }}
+        class="grid-item size-{{ .Params.size }} section"
+      {{ else }}
+        class="grid-item section"
+      {{ end }} >
+
+      <figure class="image">
+        <a href="{{ .Permalink }}">
+          <img src="{{ index .Params.images 0 }}">
         </a>
-        <figcaption class="card__caption">
+        <figcaption>
           <h2 class="title is-3">
             <!-- <a href="{{ .Permalink }}">{{ .Title }}</a> -->
             {{ .Title }}
           </h2>
-          <div class="card__description">
-            <p>{{ .Params.excerpt }}</p>
-          </div>
         </figcaption>
       </figure>
     </section>
