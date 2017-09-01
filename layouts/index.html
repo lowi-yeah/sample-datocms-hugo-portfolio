@@ -1,5 +1,4 @@
 {{ partial "header.html" . }}
-{{ partial "navigation.html" . }}
 {{ partial "hero.html" . }}
 
 {{ $paginator := .Paginate (where .Data.Pages "Type" "entry") }}
@@ -10,8 +9,8 @@
     <section 
       class="grid-item section"
       {{ with .Params.size }} size="{{ . }}" {{ end }} 
-      {{ with .Params.emphasis }} emphasis="{{ . }}" {{ end }} >
-
+      {{ with .Params.emphasis }} emphasis="{{ . }}" {{ end }}
+      {{ with .Params.category }} category="{{ . }}" {{ end }} >
       <div class="box">
         <a href="{{ .Permalink }}">
           <img class="image" src="{{ index .Params.images 0 }}">

@@ -65,6 +65,9 @@ module.exports = (dato, root, i18n) => {
     // ...and for each entry stored online...
     dato.entries.forEach((entry, index) => {
       // ...create a markdown file with all the metadata in the frontmatter
+
+      // console.log('entry.category', entry.category)
+
       dir.createPost(`${entry.slug}.md`, 'yaml', {
         frontmatter: {
           title:       entry.title,

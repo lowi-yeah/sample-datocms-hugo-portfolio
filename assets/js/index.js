@@ -1,8 +1,10 @@
 import '../sass/index.sass'
-import initMenu     from './init-menu'
-import initPackery  from './init-packery'
+import initMenu    from './init-menu'
+import initSlider  from './init-slider'
+import initPackery from './init-packery'
+import initDetail   from './init-detail'
 
 initMenu()
 initPackery()
-// initOffcanvasMenu()
-// initSlider()
+initSlider()
+initDetail()

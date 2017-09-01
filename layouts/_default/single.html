@@ -1,16 +1,32 @@
 {{ partial "header.html" . }}
 
-<article class="sheet">
-  <div class="sheet__inner">
-    <h1 class="sheet__title">{{ .Title }}</h1>
-    <p class="sheet__lead">{{ .Params.excerpt }}</p>
-    <div class="sheet__gallery">
-      <img src="{{ .Params.photo }}" />
-    </div>
-    <div class="sheet__body">
-      {{ .Content }}
+<article class="section">
+ 
+  <div class="fullscreen slider js_slider">
+    <div class="frame js_frame">
+      <ul class="slides js_slides">
+        {{ range .Params.images }}
+          <li class="js_slide">
+            <div class="content" style="background-image:url('{{ . }}')"></div>
+          </li>
+        {{ end }}
+      </ul>
     </div>
   </div>
+
+  <div class="detail packery">
+    <section class="grid-item">
+      <div class="card">
+        <div class="card-content">
+          <p class="title is-1">{{ .Title }}</p>
+          <div class="content">
+            {{ .Content }}
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+
 </article>
 
 {{ partial "footer.html" . }}

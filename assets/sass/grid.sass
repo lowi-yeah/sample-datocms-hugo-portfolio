@@ -1,0 +1,97 @@
+
+.grid-item 
+  color: $white
+  width: 33.333% 
+  +mobile 
+    width: 100% 
+  
+  &[size="2"] 
+    width: 66.666% 
+    +mobile 
+      width: 100%
+
+  &[size="3"] 
+    width: 100%
+
+  &[emphasis] 
+    .box
+      color: $red
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAAXNSR0IArs4c6QAAABVJREFUCB1jvFVf+Z8BCTAhsYlkAgC5MwLVUW+A4AAAAABJRU5ErkJggg==) repeat !important
+
+  &[category="Architektur"] 
+    $farbe: $black
+    $tile-size: 28px
+    $stroke-width: 2%
+    .box
+    
+      background-image: url("data:image/svg+xml,%3Csvg%20width%3D%2728px%27%20height%3D%2728px%27%20viewBox%3D%270%200%2028px%2028px%27%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%3E%3Cg%20fill%3D%27%230a0a0a%27%3E%3Ccircle%20cx%3D%273%27%20cy%3D%273%27%20r%3D%273%27/%3E%3Ccircle%20cx%3D%2713%27%20cy%3D%2713%27%20r%3D%273%27/%3E%3C/g%3E%3C/svg%3E")
+      // background-image: url("data:image/svg+xml,%3Csvg width='#{$tile-size}' height='#{$tile-size}' viewBox='0 0 #{$tile-size} #{$tile-size}' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='#{$farbe}' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")
+      // background-color: transparent
+      // box-sizing: content-box
+      // background: linear-gradient(45deg, rgba($farbe,0) 0, rgba($farbe,0) 50% - $stroke-width, rgba($farbe,1) 50% - $stroke-width, rgba($farbe,1) 50% + $stroke-width, rgba($farbe,1) 50% + $stroke-width, rgba($farbe,0) 50% + $stroke-width, rgba($farbe,0) 100%), linear-gradient(135deg, rgba($farbe,0) 0, rgba($farbe,0) 50% - $stroke-width, rgba($farbe,1) 50% - $stroke-width, rgba($farbe,1) 50% + $stroke-width, rgba($farbe,1) 50% + $stroke-width, rgba($farbe,0) 50% + $stroke-width, rgba($farbe,0) 100%)
+      // background-position: -$tile-size/4 0, $tile-size/4 0
+      // background-origin: padding-box
+      // background-clip: border-box
+      // -webkit-background-size: 20px 10px;
+      // background-size: $tile-size $tile-size/2
+
+    .text
+      text-shadow: 4px 4px 0px rgba($black,0.81), -6px -6px 0px rgba($black,0.81)
+
+  &[category="Other"] 
+    $farbe: $red
+    $tile-size: 24px
+    .box
+      background-color: transparent
+      background-image: radial-gradient($farbe 15%, transparent 16%), radial-gradient($farbe 15%, transparent 16%)
+      background-size: $tile-size $tile-size
+      background-position: 0 0, $tile-size/2 $tile-size/2
+    .text
+      text-shadow: 4px 4px 0px rgba($black,0.81), -6px -6px 0px rgba($black,0.81)
+
+
+
+  &[category="Marke im Raum"] 
+    .box
+      background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E")
+    .text
+      text-shadow: 4px 4px 0px rgba($black,0.81), -6px -6px 0px rgba($black,0.81)
+  
+  &[category="Produktdesign"] 
+    .box
+      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAAXNSR0IArs4c6QAAABBJREFUCB1jZGBg+A/ElAAAQEgBATX2JagAAAAASUVORK5CYII=) repeat
+    .text
+      text-shadow: 4px 4px 0px rgba($black,0.81), -6px -6px 0px rgba($black,0.81)
+      
+
+  .box
+    position: relative
+
+  img
+    width: 100%
+
+  .text
+    position: absolute
+    width: 100%
+    height: 100%
+    top: 0
+    left: 0
+    display: flex
+    align-items: flex-end
+    text-align: center
+    pointer-events: none
+    text-shadow: 4px 4px 0px rgba($black,0.81)
+    
+    span
+      position: absolute
+      font-weight: $weight-bold
+      flex: 1 1 auto
+      align-self: flex-end
+      // mix-blend-mode: difference
+      // +text-stroke($size: 1, $color: $black, $correction: 0)
+      // +long-shadow($color: $white, $length: 8)
+      
+      // +stripes()
+      // -webkit-background-clip: text
+      // -webkit-text-fill-color: transparent
+
