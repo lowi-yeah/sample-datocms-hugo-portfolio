@@ -38,7 +38,7 @@ function _sizeUp(element) {
   if(!element)
     _.each(document.querySelectorAll(itemSelector), el => _sizeUp(el))
   else {
-    let size = element.getAttribute('size') || _.random(1, 3)
+    let size = element.getAttribute('size') || _.random(1, 2)
     element.setAttribute('size', size)
   }
 }
@@ -47,7 +47,7 @@ function _randomizePadding(element) {
   let width       = element.offsetWidth,
       directions  = ['padding-top', 'padding-right', 'padding-bottom', 'padding-left'],
       padding     = _.reduce(directions, (r,d) => {
-                      r[d] = _.round(_.random(width * 0.01, width * 0.1)) + 'px'
+                      r[d] = _.round(_.random(width * 0.05, width * 0.24)) + 'px'
                       return r }, {})
   _.each(padding, (v, k) => element.style[k] = v ) }
 

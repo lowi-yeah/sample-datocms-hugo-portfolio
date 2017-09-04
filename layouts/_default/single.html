@@ -15,9 +15,11 @@
   </div>
 
   <section class="draggable">
-    <p class="title is-1">{{ .Title }}</p>
-    <div class="content">
-      {{ .Content }}  
+    <div class="box">
+      <p class="title is-1">{{ .Title }}</p>
+      <div class="content">
+        {{ .Content }}  
+      </div>
     </div>
       {{ with .Params.latlng }}
         <iframe width="100%" height="420" src="http://maps.stamen.com/toner/embed#14/{{.latitude}}/{{.longitude}}"></iframe>  
