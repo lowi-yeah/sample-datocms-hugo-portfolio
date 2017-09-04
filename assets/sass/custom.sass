@@ -1,3 +1,18 @@
+html
+  overflow-x: scroll
+  // background: $grey
+
+#back 
+  // left: 1rem
+  // top: 1rem
+  z-index:        2000
+  border:         1px solid $red
+  position:       absolute
+  left:           20rem
+  top:            20rem
+  pointer-events: auto
+
+
 #toc.button 
   width: 48px
   height: 48px
@@ -9,7 +24,6 @@
   border: none
   box-shadow: none
   background: transparent
-
   
   #iconset
     margin-top: 0
@@ -42,6 +56,11 @@ nav#sidebar
     transform: translateX(0)    
 
 
+svg#logo
+  path
+    fill: $red
+
+
 
 .title.is-1
   font-weight: $weight-bold
@@ -49,23 +68,45 @@ nav#sidebar
 .uppercase
   text-transform: uppercase
 
+.glitchy
+  +textGlitch("main", 4, $white, transparent, $red, $blue, 320, 115)
+
+.navigation 
+  position: fixed
+  top: 1rem
+  left: 1rem
+  display: flex
+  align-items: center
+
+  // display: none
+  // visibility: hidden
+
+  .button
+    flex: 0 0 auto
+
+  .title
+    flex: 0 1 auto
+
+
 //           _   _    _
 //  __ _ _ _| |_(_)__| |___
 // / _` | '_|  _| / _| / -_)
 // \__,_|_|  \__|_\__|_\___|
-
 article 
   padding-top: 64vh !important
 
-  .card
-    width: 48rem
+  section
+    width: 640px
     background: $white
+    box-shadow: 10px 10px 0px 0px rgba($black,0.81)
+    border: 2px solid rgba($black,0.81)
+    position: absolute
+    
+    &:hover
+      cursor: move
 
 
-
-
-
-
-
-
+.controls a 
+  color: $black
+  background: $red
 

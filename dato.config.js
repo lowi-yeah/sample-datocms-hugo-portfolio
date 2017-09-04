@@ -80,6 +80,6 @@ module.exports = (dato, root, i18n) => {
           weight:      entry.date,
           emphasis:    entry.emphasis,
           seoMetaTags: toHtml(entry.seoMetaTags) },
-        content: entry.description }) }) })
+        content: entry.description || '' }) }) })
 
 }

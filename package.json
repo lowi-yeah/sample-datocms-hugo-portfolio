@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "bulma": "^0.5.1",
+    "draggabilly": "^2.1.1",
+    "gsap": "^1.20.2",
     "imagesloaded": "^4.1.1",
     "livereload": "^0.6.0",
     "lory.js": "^2.2.1",
