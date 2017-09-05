@@ -30,25 +30,18 @@ html
     margin-left: 0
     width: 100%
     height: 100%
-    
-    // path 
-    //   fill: @textColor;   
-    //   transition: @transition
+    -webkit-filter: drop-shadow( 2px 2px $white )
+    filter: drop-shadow( 2px 2px $white )
       
-  &:hover 
-    #iconset 
-      path 
-        fill: $red
-
+      
 nav#sidebar
-  border: 2px solid $blue
   height: 100vh
   width: 33vw
   position: fixed
   top: 0
   right: 0
   z-index: 1023
-  background: rgba($blue, 0.4)
+  background: rgba($red, 1)
   transform: translateX(100%)
   transition: transform 0.3s
 
@@ -57,10 +50,12 @@ nav#sidebar
 
 
 svg#logo
+  -webkit-filter: drop-shadow( 2px 2px $black )
+  filter: drop-shadow( 2px 2px $black )
   path
-    fill: $red
-
-
+    fill: $white
+    
+    
 
 .title.is-1
   font-weight: $weight-bold

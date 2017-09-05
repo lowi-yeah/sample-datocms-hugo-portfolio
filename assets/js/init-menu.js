@@ -38,4 +38,5 @@ function _initSidebar() {
 
 export default function() {
   _initSidebar()
-  _initBack() }
+  _initBack() 
+}

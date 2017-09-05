@@ -12,11 +12,11 @@
       {{ with .Params.emphasis }} emphasis="{{ . }}" {{ end }}
       {{ with .Params.category }} category="{{ . }}" {{ end }} >
       <div class="box">
-        <a href="{{ .Permalink }}">
+        <div class="content">
+          <a class="overlay" href="{{ .Permalink }}">
+            <div class="text"> {{ .Title }} </div>  
+          </a>  
           <img class="image" src="{{ index .Params.images 0 }}">
-        </a>
-        <div class="text">
-          <span>{{ .Title }}</span>
         </div>  
       </div>
     </section>
