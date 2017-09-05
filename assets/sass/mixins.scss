@@ -46,15 +46,13 @@
   @return $text-list;
 }
 
-@mixin stripes($color1: #fff, $color2: #000, $angle: 45deg, $width: 4px ) {
-  background: repeating-linear-gradient(
-    $angle,
-    $color1,
-    $color1 $width,
-    $color2 $width,
-    $color2 2 * $width )}
-
-
+// @mixin stripes($color1: #fff, $color2: #000, $angle: 45deg, $width: 4px ) {
+//   background: repeating-linear-gradient(
+//     $angle,
+//     $color1,
+//     $color1 $width,
+//     $color2 $width,
+//     $color2 2 * $width )}
 
 /*
   (TEXT) PARAMS

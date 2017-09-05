@@ -3,7 +3,7 @@
 
 {{ $paginator := .Paginate (where .Data.Pages "Type" "entry") }}
 
-<div class="grid packery is-loading" {{ if .Paginator.HasNext }} data-next-url="{{ .Paginator.Next.URL }}" {{ end }}>
+<div class="grid is-loading" {{ if .Paginator.HasNext }} data-next-url="{{ .Paginator.Next.URL }}" {{ end }}>
   {{ range $paginator.Pages }}
 
     <section 

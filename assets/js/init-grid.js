@@ -4,9 +4,9 @@ import imagesLoaded     from 'imagesloaded'
 import lazyScroll       from 'scroll-lazy'
 import textToDomElement from './textToDomElement'
 
-let selector        = '.grid.packery',
-    itemSelector    = '.grid.packery > .grid-item',
-    captionSelector = '.grid.packery > .grid-item .text > span',
+let selector        = '.grid',
+    itemSelector    = '.grid > .grid-item',
+    captionSelector = '.grid > .grid-item .text > span',
     percentPosition = true
 
 function _getFontSize(element) {
@@ -73,8 +73,7 @@ function _coordinates(self, e) {
   function _offset({x, y}, ε) {
     x += ε.offsetLeft
     y += ε.offsetTop
-
-    if(ε.className.match(/\bpackery\b/)) return {x, y}
+    if(ε.className.match(/^grid$/)) return {x, y}
     else return _offset({x, y}, ε.parentNode) }
 
   let {x, y} = _offset({x: 0, y: 0}, self) 
@@ -138,7 +137,7 @@ function _initOverlay(item) {
         break }}
       }
 
-export default function initPackery() {
+export default function initGrid() {
   let base = document.querySelector(selector);
   if (!base) return
 

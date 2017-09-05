@@ -1,13 +1,13 @@
 import '../sass/index.sass'
-import initMenu    from './init-menu'
-import initSlider  from './init-slider'
-import initPackery from './init-packery'
-import initDetail  from './init-detail'
-import initFunky   from './init-funky-button'
-import initHover   from './init-hover'
+import initMenu   from './init-menu'
+import initSlider from './init-slider'
+import initGrid   from './init-grid'
+import initDetail from './init-detail'
+import initFunky  from './init-funky-button'
+import initHover  from './init-hover'
 
 initMenu()
-initPackery()
+initGrid()
 initSlider()
 initDetail()
 // initHover()
