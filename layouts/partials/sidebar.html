@@ -4,4 +4,42 @@
   </span>
 </button>
 
-<nav id="sidebar"></nav>
+<nav id="sidebar">
+    <section class="section has-text-centered">
+         <h1 class="title ">
+            {{ .Site.Data.settings.name }}
+          </h1>
+      </section>
+  
+    <section id="filters" class="section">
+      
+      <h1 class="title is-4">
+          Filter:
+      </h1>
+
+      {{ range .Site.Data.settings.filters  }}
+        <label class="filter checkbox">
+          <span class="c-wrap">
+            <input type="checkbox" filter="{{.}}">
+          </span>
+          {{.}}
+        </label>
+      {{ end }}
+    </section>
+
+    <!-- Hero footer: will stick at the bottom -->
+   <!--  <div class="hero-foot">
+      <nav class="tabs">
+        <div class="container">
+          <ul>
+            <li class="is-active"><a>Overview</a></li>
+            <li><a>Modifiers</a></li>
+            <li><a>Grid</a></li>
+            <li><a>Elements</a></li>
+            <li><a>Components</a></li>
+            <li><a>Layout</a></li>
+          </ul>
+        </div>
+      </nav>
+    </div> -->
+</nav>

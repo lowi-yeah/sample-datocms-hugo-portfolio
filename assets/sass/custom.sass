@@ -22,8 +22,10 @@ html
   top: 1rem
   right: 1rem
   border: none
+  // border: 1px solid $red
   box-shadow: none
-  background: transparent
+  background: $white
+  border-radius: 24px
   
   #iconset
     margin-top: 0
@@ -32,21 +34,59 @@ html
     height: 100%
     -webkit-filter: drop-shadow( 2px 2px $white )
     filter: drop-shadow( 2px 2px $white )
-      
+
++touch
+  #toc.button 
+    bottom: 1rem
+    top: unset
       
 nav#sidebar
   height: 100vh
   width: 33vw
-  position: fixed
-  top: 0
-  right: 0
-  z-index: 1023
-  background: rgba($red, 1)
+  
   transform: translateX(100%)
   transition: transform 0.3s
+  +pb('lines-45-b', 16px, $white, $black, 1, 'none')
+
+  position: fixed !important
+  z-index: 1023 !important
+  top: 0
+  right: 0
 
   &.visible
-    transform: translateX(0)    
+    transform: translateX(0) 
+
+  .section 
+    padding: 1rem
+
+  .title
+    font-weight: 700
+    font-variant: small-caps
+    +text-stroke()
+
+  #filters
+    label
+      @extend .title
+      @extend .is-4
+      font-weight: 700
+      font-variant: small-caps
+      +text-stroke()
+      display: block
+
+    .c-wrap
+      padding-left: 0.81rem
+      margin-right: 0.5rem
+      background: $white
+
+
+
++mobile
+  nav#sidebar
+    height: 100vh
+    width: 100vw
+    transform: translateX(0%) translateY(100%)
+    &.visible
+      transform: translateY(0)    
 
 svg#logo
   -webkit-filter: drop-shadow( 2px 2px $black )
@@ -84,10 +124,10 @@ svg#logo
 //  __ _ _ _| |_(_)__| |___
 // / _` | '_|  _| / _| / -_)
 // \__,_|_|  \__|_\__|_\___|
-article 
+article.single
   padding-top: 64vh !important
 
-  section
+  & > section
     width: 640px
     background: $white
     box-shadow: 10px 10px 0px 0px rgba($black,0.81)
@@ -101,4 +141,8 @@ article
 .controls a 
   color: $black
   background: $red
+
++mobile
+  article.single > section
+    width: 100vw
 

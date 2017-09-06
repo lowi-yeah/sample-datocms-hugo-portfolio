@@ -1,9 +1,20 @@
 {{ partial "header.html" . }}
+{{ partial "sidebar.html" . }}
 {{ partial "hero.html" . }}
 
 {{ $paginator := .Paginate (where .Data.Pages "Type" "entry") }}
 
-<div class="grid is-loading" {{ if .Paginator.HasNext }} data-next-url="{{ .Paginator.Next.URL }}" {{ end }}>
+<pre>
+  Pages:      {{$paginator.Pages}}
+  PageNumber: {{$paginator.PageNumber}}
+  HasPrev:    {{$paginator.HasPrev}}
+  Prev:       {{$paginator.Prev}}
+</pre>
+
+
+<div class="grid">
+ 
+
   {{ range $paginator.Pages }}
 
     <section 
@@ -11,16 +22,24 @@
       {{ with .Params.size }} size="{{ . }}" {{ end }} 
       {{ with .Params.emphasis }} emphasis="{{ . }}" {{ end }}
       {{ with .Params.category }} category="{{ . }}" {{ end }} >
-      <div class="box">
+      <a class="box" href="{{ .Permalink }}">
         <div class="content">
-          <a class="overlay" href="{{ .Permalink }}">
-            <div class="text"> {{ .Title }} </div>  
-          </a>  
+          <div class="overlay">
+            <div class="text" > 
+              {{ .Title }}
+            </div>  
+            </div>
           <img class="image" src="{{ index .Params.images 0 }}">
         </div>  
-      </div>
+      </a>  
     </section>
   {{ end }}
-</div>
 
+ 
+</div>
+ {{ if .Paginator.HasNext }} 
+    <div id="next" class="container is-fluid">
+      <a class="button" href="{{ .Paginator.Next.URL }}">next</a>
+    </div>  
+  {{ end }}
 {{ partial "footer.html" . }}

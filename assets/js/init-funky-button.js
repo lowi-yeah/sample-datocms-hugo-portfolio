@@ -23,10 +23,6 @@ function init() {
 }
 
 function createArrowAnimation( {parent} ) {
-
-  console.log('createArrowAnimation')
-  console.log('parent', parent)
-
   TweenMax.set( parent + ".arrow-pt-3-bottom", { drawSVG:"91% 91%", opacity:0 } );
   TweenMax.set( parent + ".arrow-pt-3-top", { drawSVG:"0" } );
   TweenMax.set( parent + ".arrow-pt-1, " + parent + ".arrow-pt-2", { drawSVG:"100% 100%" } );

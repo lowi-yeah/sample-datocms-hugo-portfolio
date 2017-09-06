@@ -1,53 +1,75 @@
 import _                from 'lodash'
-import Packery          from 'packery'
 import imagesLoaded     from 'imagesloaded'
-import lazyScroll       from 'scroll-lazy'
-import textToDomElement from './textToDomElement'
+import Isotope          from 'isotope'
+import InfiniteScroll   from 'infinite-scroll'
+import {scaleLinear}    from 'd3-scale'
+import isMobile         from 'ismobilejs'
+
+function isTouchDevice() { return isMobile.phone || isMobile.seven_inch || isMobile.tablet }
+
+// make imagesLoaded available for InfiniteScroll
+InfiniteScroll.imagesLoaded = imagesLoaded
 
 let selector        = '.grid',
     itemSelector    = '.grid > .grid-item',
-    captionSelector = '.grid > .grid-item .text > span',
-    percentPosition = true
+    captionSelector = '.grid > .grid-item .text',
+    fontWeights     = [400, 700, 800, 900],
+    fontWeightΣ     = scaleLinear()
+                        .domain([64, 16])
+                        .rangeRound([0, 3])
+fontWeightΣ.clamp(true)
+
 
 function _getFontSize(element) {
   let style = window.getComputedStyle(element, null).getPropertyValue('font-size')
   return parseFloat(style)}
 
-function _setFontSize(element, size) { 
-  element.style.fontSize = size + 'px'}
+function _setFontSize(element, size) { element.style.fontSize = size + 'px'}
 
-function _resizeCaptions() {
-  let captions = document.querySelectorAll(captionSelector)
-  _.each(captions, (caption) => {
 
-    // hackedy hack: before calculating the fontsize, unset the span width
-    caption.style.width = 'unset'
+function _captionHeight(caption, ƒSize, i) {
+  let ch      = caption.offsetHeight,
+      ph      = caption.parentElement.parentElement.offsetHeight,
+      ratioH  = ch/ph
+
+  // safety first
+  if(i > 42) return
+
+  if(ratioH > 1) {
+    ƒSize = ƒSize * 0.81
+    _setFontSize(caption, ƒSize)
+    _.delay(() => _captionHeight(caption, ƒSize, (i+1)), 100)
+  } else {
+    // console.log('caption.style', caption.style, ƒSize)
+    console.log('ƒSize', ƒSize, fontWeightΣ(ƒSize), fontWeights[fontWeightΣ(ƒSize)])
+    caption.style.opacity = 1
+    caption.style.fontWeight = fontWeights[fontWeightΣ(ƒSize)]
     
-    let fontSize  = _getFontSize(caption),
-        width     = caption.offsetWidth,
-        parent    = caption.parentElement.offsetWidth,
-        ratio     = parent / width
-    _setFontSize(caption, fontSize * ratio * 0.81)
-
-    // hackedy hack: after setting the fontsize, set the span width to 100%
-    caption.style.width = '100%' })}
-
-// helper function that randomly assigns the size attribute of an element,
-// if it;s not already set
-function _sizeUp(element) {
-  if(!element)
-    _.each(document.querySelectorAll(itemSelector), el => _sizeUp(el))
-  else {
-    let size = element.getAttribute('size') || _.random(1, 2)
-    element.setAttribute('size', size)
   }
 }
 
+function _resizeCaption(caption) {
+  let cw        = caption.offsetWidth,
+      pw        = caption.parentElement.parentElement.offsetWidth,
+      ratioW    = pw/cw,
+      ƒSize     = _getFontSize(caption) * 0.81,
+      newƒSize  = ƒSize * ratioW
+  _setFontSize(caption, newƒSize)
+  // we need the delays so that the elements have a chance to get redrawn
+  _.delay(() => _captionHeight(caption, ƒSize, 0), 100)}
+
+// helper function that randomly assigns the size attribute of an element,
+// if it's not already set
+function _sizeUp(element) {
+  let size = element.getAttribute('size') || _.random(1, 2)
+  element.setAttribute('size', size) }
+
 function _randomizePadding(element) {
   let width       = element.offsetWidth,
-      directions  = ['padding-top', 'padding-right', 'padding-bottom', 'padding-left'],
-      padding     = _.reduce(directions, (r,d) => {
-                      r[d] = _.round(_.random(width * 0.05, width * 0.24)) + 'px'
+
+      paddings    = ['padding-top', 'padding-right', 'padding-bottom', 'padding-left'],
+      padding     = _.reduce(paddings, (r,d) => {
+                      r[d] = _.round(_.random(width * 0.024, width * 0.16)) + 'px'
                       return r }, {})
   _.each(padding, (v, k) => element.style[k] = v ) }
 
@@ -79,13 +101,13 @@ function _coordinates(self, e) {
   let {x, y} = _offset({x: 0, y: 0}, self) 
   x = e.pageX - x
   y = e.pageY - y
-  return {x, y}
-}
+  return {x, y} }
 
 function _initOverlay(item) {
 
-
   item.onmouseenter = function(e){
+    if(isTouchDevice()) return
+
     let {x, y}    = _coordinates(this, e),
         edge      = _closestEdge(x, y, this.clientWidth, this.clientHeight),
         overlay   = this.getElementsByClassName('overlay')[0]
@@ -115,9 +137,10 @@ function _initOverlay(item) {
         //tween overlay from the right
         TweenLite.to(overlay, .5, {top: '0%'})
         break}}
-  
    
   item.onmouseleave = function(e){
+    if(isTouchDevice()) return
+
     let {x, y}  = _coordinates(this, e),
         edge    = _closestEdge(x,y,this.clientWidth, this.clientHeight),
         overlay = this.getElementsByClassName('overlay')[0]
@@ -137,47 +160,62 @@ function _initOverlay(item) {
         break }}
       }
 
+function _initFilters(isotope) {
+  let base    = document.querySelector(selector),
+      filters = document.querySelectorAll('.filter input[type="checkbox"]')
+  function _filter() {
+    let values = _.map(filters, checkbox => {
+                      let name = checkbox.getAttribute('filter')
+                      return {name: name, checked: checkbox.checked}})
+
+    isotope   = new Isotope( base, {itemSelector: '.grid-item',
+                                    layoutMode: 'fitRows',
+                                    filter: function(item) {
+                                      console.log('item', item)
+                                      // console.log('filters', filters)
+                                      return _.random(100) > 70
+
+                                    } }),
+    console.log('isotope', isotope)
+
+  }
+  
+  _.each(filters, ƒ => { ƒ.onchange = _filter })
+}
 export default function initGrid() {
   let base = document.querySelector(selector);
   if (!base) return
 
-  imagesLoaded(base).on('always', () => {
-    let packery = new Packery(base, { itemSelector, percentPosition })
-    base.classList.remove('is-loading')
+  let isotope   = new Isotope( base, {itemSelector: '.grid-item',
+                                      layoutMode: 'fitRows',
+                                      filter: '*' }),
+      infScroll = new InfiniteScroll( base, { path: '#next > a',
+                                              append: '.grid-item',
+                                              outlayer: isotope,
+                                              hideNav: '#next'}),
+      filters   = _initFilters(isotope)
 
-    _.each(packery.items, item => {
-      _randomizePadding(item.element.getElementsByClassName('box')[0])
-      _initOverlay(item.element.getElementsByClassName('box')[0].getElementsByClassName('content')[0])
-    })
+    // initialize the existing grid items. then re-layout
+    _.each(isotope.items, item => {
+        let box     = item.element.getElementsByClassName('box')[0],
+            content = box.getElementsByClassName('content')[0],
+            caption = content.getElementsByClassName('overlay')[0]
+                        .getElementsByClassName('text')[0]
+        _sizeUp(item.element)
+        _randomizePadding(box)
+        _resizeCaption(caption)
+        _initOverlay(content)})
+    isotope.layout()
 
-    lazyScroll
-    .on(next => {
-      let nextUrl = base.dataset.nextUrl
-      if (!nextUrl) return
-
-      fetch(nextUrl)
-      .then(res => res.text())
-      .then(body => {
-        let newBase     = textToDomElement(body, selector),
-            newNextUrl  = newBase.dataset.nextUrl,
-            newItems    = [...newBase.querySelectorAll(itemSelector)]
-
-        imagesLoaded(newBase).on('always', () => {
-          base.dataset.nextUrl = newNextUrl
-          newItems.forEach(el => {
-            _sizeUp(el)
-            base.appendChild(el) })
-          packery.appended(newItems)
-          packery.layout()
-
-          _resizeCaptions()
-          _.each(newItems, el => {
-            _randomizePadding(el.getElementsByClassName('box')[0])
-            _initOverlay(el.getElementsByClassName('box')[0].getElementsByClassName('content')[0])})
-
-          next()})})})
-    .watch({ threshold: 300 })})
-
-  _sizeUp()
-  _resizeCaptions()
-}
+    // upon append, initialize the new grid items. then re-layout
+    infScroll.on( 'append', (response, path, items) => {
+      _.each(items, item => {
+        let box     = item.getElementsByClassName('box')[0],
+            content = box.getElementsByClassName('content')[0],
+            caption = content.getElementsByClassName('overlay')[0]
+                        .getElementsByClassName('text')[0]
+        _sizeUp(item)
+        _randomizePadding(box)
+        _resizeCaption(caption)
+        _initOverlay(content)})
+      isotope.layout()})}
