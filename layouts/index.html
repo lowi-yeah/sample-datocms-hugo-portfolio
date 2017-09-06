@@ -1,9 +1,20 @@
 {{ partial "header.html" . }}
+{{ partial "sidebar.html" . }}
 {{ partial "hero.html" . }}
 
 {{ $paginator := .Paginate (where .Data.Pages "Type" "entry") }}
 
+<pre>
+  Pages:      {{$paginator.Pages}}
+  PageNumber: {{$paginator.PageNumber}}
+  HasPrev:    {{$paginator.HasPrev}}
+  Prev:       {{$paginator.Prev}}
+</pre>
+
+
 <div class="grid">
+ 
+
   {{ range $paginator.Pages }}
 
     <section 

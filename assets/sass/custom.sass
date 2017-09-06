@@ -43,16 +43,42 @@ html
 nav#sidebar
   height: 100vh
   width: 33vw
-  position: fixed
-  top: 0
-  right: 0
-  z-index: 1023
-  background: rgba($red, 1)
+  
   transform: translateX(100%)
   transition: transform 0.3s
+  +pb('lines-45-b', 16px, $white, $black, 1, 'none')
+
+  position: fixed !important
+  z-index: 1023 !important
+  top: 0
+  right: 0
 
   &.visible
-    transform: translateX(0)    
+    transform: translateX(0) 
+
+  .section 
+    padding: 1rem
+
+  .title
+    font-weight: 700
+    font-variant: small-caps
+    +text-stroke()
+
+  #filters
+    label
+      @extend .title
+      @extend .is-4
+      font-weight: 700
+      font-variant: small-caps
+      +text-stroke()
+      display: block
+
+    .c-wrap
+      padding-left: 0.81rem
+      margin-right: 0.5rem
+      background: $white
+
+
 
 +mobile
   nav#sidebar

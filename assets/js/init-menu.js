@@ -25,18 +25,26 @@ function _initBack() {
   document.getElementById('logo').onmouseleave = () => morpheus.to('narrow')
 }
 
-function _initSidebar() {
+function _initToc() {
   if (!document.querySelector('#toc')) return
-  if (!document.querySelector('#sidebar')) return
   let tocOptions  = { iconId:   'burger',
                       duration: 400,
                       rotation: 'none' },
       morpheus    = new SVGMorpheus('#iconset', tocOptions)
   document.getElementById('toc').onclick = () => {
     if( morpheus._curIconId === 'burger') _openSidebar(morpheus)
-    if( morpheus._curIconId === 'close' ) _closeSidebar(morpheus) }}
+    if( morpheus._curIconId === 'close' ) _closeSidebar(morpheus) }
+}
+
+function _initSidebar() {
+  let ς = document.querySelector('#sidebar')
+  if (!ς) return
+ 
+
+  }
 
 export default function() {
-  _initSidebar()
+  _initToc()
+  // _initSidebar()
   _initBack() 
 }

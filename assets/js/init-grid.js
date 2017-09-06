@@ -2,7 +2,7 @@ import _                from 'lodash'
 import imagesLoaded     from 'imagesloaded'
 import Isotope          from 'isotope'
 import InfiniteScroll   from 'infinite-scroll'
-import {scalePow}       from 'd3-scale'
+import {scaleLinear}    from 'd3-scale'
 import isMobile         from 'ismobilejs'
 
 function isTouchDevice() { return isMobile.phone || isMobile.seven_inch || isMobile.tablet }
@@ -13,7 +13,12 @@ InfiniteScroll.imagesLoaded = imagesLoaded
 let selector        = '.grid',
     itemSelector    = '.grid > .grid-item',
     captionSelector = '.grid > .grid-item .text',
-    percentPosition = true
+    fontWeights     = [400, 700, 800, 900],
+    fontWeightΣ     = scaleLinear()
+                        .domain([64, 16])
+                        .rangeRound([0, 3])
+fontWeightΣ.clamp(true)
+
 
 function _getFontSize(element) {
   let style = window.getComputedStyle(element, null).getPropertyValue('font-size')
@@ -35,7 +40,11 @@ function _captionHeight(caption, ƒSize, i) {
     _setFontSize(caption, ƒSize)
     _.delay(() => _captionHeight(caption, ƒSize, (i+1)), 100)
   } else {
+    // console.log('caption.style', caption.style, ƒSize)
+    console.log('ƒSize', ƒSize, fontWeightΣ(ƒSize), fontWeights[fontWeightΣ(ƒSize)])
     caption.style.opacity = 1
+    caption.style.fontWeight = fontWeights[fontWeightΣ(ƒSize)]
+    
   }
 }
 
@@ -48,8 +57,6 @@ function _resizeCaption(caption) {
   _setFontSize(caption, newƒSize)
   // we need the delays so that the elements have a chance to get redrawn
   _.delay(() => _captionHeight(caption, ƒSize, 0), 100)}
-
-
 
 // helper function that randomly assigns the size attribute of an element,
 // if it's not already set
@@ -153,16 +160,40 @@ function _initOverlay(item) {
         break }}
       }
 
+function _initFilters(isotope) {
+  let base    = document.querySelector(selector),
+      filters = document.querySelectorAll('.filter input[type="checkbox"]')
+  function _filter() {
+    let values = _.map(filters, checkbox => {
+                      let name = checkbox.getAttribute('filter')
+                      return {name: name, checked: checkbox.checked}})
+
+    isotope   = new Isotope( base, {itemSelector: '.grid-item',
+                                    layoutMode: 'fitRows',
+                                    filter: function(item) {
+                                      console.log('item', item)
+                                      // console.log('filters', filters)
+                                      return _.random(100) > 70
+
+                                    } }),
+    console.log('isotope', isotope)
+
+  }
+  
+  _.each(filters, ƒ => { ƒ.onchange = _filter })
+}
 export default function initGrid() {
   let base = document.querySelector(selector);
   if (!base) return
- 
+
   let isotope   = new Isotope( base, {itemSelector: '.grid-item',
-                                      layoutMode: 'fitRows' }),
+                                      layoutMode: 'fitRows',
+                                      filter: '*' }),
       infScroll = new InfiniteScroll( base, { path: '#next > a',
                                               append: '.grid-item',
                                               outlayer: isotope,
-                                              hideNav: '#next'})
+                                              hideNav: '#next'}),
+      filters   = _initFilters(isotope)
 
     // initialize the existing grid items. then re-layout
     _.each(isotope.items, item => {
