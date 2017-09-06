@@ -6,6 +6,10 @@ import initDetail from './init-detail'
 import initFunky  from './init-funky-button'
 import initHover  from './init-hover'
 
+window.goBack = function() {
+  window.history.back()
+}
+
 initMenu()
 initGrid()
 initSlider()

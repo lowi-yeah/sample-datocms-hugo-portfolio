@@ -14,3 +14,5 @@ Paginate = 5
 title = "Studio Knack"
 languageCode = "en"
 # datocms:end
+
+bind = "0.0.0.0"

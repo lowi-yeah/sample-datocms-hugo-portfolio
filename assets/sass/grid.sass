@@ -1,4 +1,4 @@
-@keyframes animatedBackground 
+@keyframes animatedNext
   from 
     background-position: 0 0
   
@@ -6,7 +6,6 @@
     background-position: 6px 0
 
 #next
-  margin-top: 1.5rem
   display: flex
   a
     @extend .title
@@ -17,10 +16,15 @@
     background-color: #ffffff
     background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 6V5zM6 5v1H5z'/%3E%3C/g%3E%3C/svg%3E")
     background-position: 0 0
+
+    // workaround for isotope layout
+    margin-top: 480px
     
     &:hover
-      // animation: animatedBackground 1s linear infinite alternate
-      animation: animatedBackground 1s linear infinite
+      animation: animatedNext 1s linear infinite
+
+// Encode/Decode urls:
+// http://www.utilities-online.info/urlencode/
 
 .grid-item 
   color: $white
@@ -38,70 +42,97 @@
 
   &[emphasis] 
     .box
-      color: $red
-      background: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAAQAAAAECAYAAACp8Z5+AAAAAXNSR0IArs4c6QAAABVJREFUCB1jvFVf+Z8BCTAhsYlkAgC5MwLVUW+A4AAAAABJRU5ErkJggg==) repeat !important
-    .overlay
-      background-color: rgba($red, $overlay-opacity) !important
+      +pb('lines-45-a', 8px, $white, $red, 1, 'none')
+      &:hover
+        +pb('lines-45-a', 12px, $white, $red, 1, 'none')
 
-  &[category="Architektur"] 
-    .box
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 12 12'%3E%3Cpath fill='%23000000' fill-opacity='1' d='M1 3h1v1H1V3zm2-2h1v1H3V1z'%3E%3C/path%3E%3C/svg%3E");
-    // .text
-    //   text-shadow: 4px 4px 0px rgba($black,0.81), -6px -6px 0px rgba($black,0.81)
-    .overlay
-      background-color: rgba($blue, $overlay-opacity)
+  // &[category="Architektur"] 
+  //   .box
+  //     +pb('lines-45-a', 4px, $white, $black, 1, 'none')
+  //     &:hover
+  //       +pb('lines-45-a', 24px, $white, $black, 1, 'none')
 
 
-  &[category="Other"] 
-    .box
-      background-image: url("data:image/svg+xml,%3Csvg width='100' height='100' viewBox='0 0 100 100' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M11 18c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm48 25c3.866 0 7-3.134 7-7s-3.134-7-7-7-7 3.134-7 7 3.134 7 7 7zm-43-7c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm63 31c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM34 90c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zm56-76c1.657 0 3-1.343 3-3s-1.343-3-3-3-3 1.343-3 3 1.343 3 3 3zM12 86c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm28-65c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm23-11c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-6 60c2.21 0 4-1.79 4-4s-1.79-4-4-4-4 1.79-4 4 1.79 4 4 4zm29 22c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zM32 63c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm57-13c2.76 0 5-2.24 5-5s-2.24-5-5-5-5 2.24-5 5 2.24 5 5 5zm-9-21c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM60 91c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM35 41c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2zM12 60c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z' fill='%23000000' fill-opacity='0.4' fill-rule='evenodd'/%3E%3C/svg%3E");
-    // .text
-    //   text-shadow: 4px 4px 0px rgba($black,0.81), -6px -6px 0px rgba($black,0.81)
-    .overlay
-      background-color: rgba($green, $overlay-opacity)
+  // &[category="Other"] 
+  //   .box
+  //     +pb('lines-45-b', 25px, $white, $black, 1, 'none')
+  //     &:hover
+  //       +pb('lines-45-b', 100px, $white, $black, 1, 'none')
+
+  // &[category="Studio"] 
+  //   .box
+  //     +pb('lines-b', 25px, $white, $black, 1, 'none')
+  //     &:hover
+  //       +pb('lines-b', 100px, $white, $black, 1, 'none')
 
 
-  &[category="Marke im Raum"] 
-    .box
-      background-image: url("data:image/svg+xml,%3Csvg width='20' height='20' viewBox='0 0 20 20' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23000000' fill-opacity='1' fill-rule='evenodd'%3E%3Ccircle cx='3' cy='3' r='3'/%3E%3Ccircle cx='13' cy='13' r='3'/%3E%3C/g%3E%3C/svg%3E");
-    // .text
-    //   text-shadow: 4px 4px 0px rgba($black,0.81), -6px -6px 0px rgba($black,0.81)
-    .overlay
-      background-color: rgba($yellow, $overlay-opacity)
+  // &[category="Marke im Raum"] 
+  //   .box
+  //     +pb('lines-a', 12px, $white, $black, 1, 'none')
+  //     &:hover
+  //       +pb('lines-a', 24px, $white, $black, 1, 'none')
   
-  &[category="Produktdesign"] 
-    .box
-      background-image: url("data:image/svg+xml,%3Csvg width='24' height='24' viewBox='0 0 24 24' xmlns='http://www.w3.org/2000/svg'%3E%3Ctitle%3Ehoundstooth%3C/title%3E%3Cg fill='%23000000' fill-opacity='1' fill-rule='evenodd'%3E%3Cpath d='M0 18h6l6-6v6h6l-6 6H0M24 18v6h-6M24 0l-6 6h-6l6-6M12 0v6L0 18v-6l6-6H0V0'/%3E%3C/g%3E%3C/svg%3E");
-    // .text
-    //   text-shadow: 4px 4px 0px rgba($black,0.81), -6px -6px 0px rgba($black,0.81)
-    .overlay
-      background-color: rgba($purple, $overlay-opacity)
+  // &[category="Kommunikationsdesign"] 
+  //   .box
+  //     +pb('lines-c', 48px, $white, $black, 1, 'none')
+  //     &:hover
+  //       +pb('lines-c', 64px, $white, $black, 1, 'none')
+
+  // &[category="Produktdesign"] 
+  //   @keyframes animProduct
+  //     from 
+  //       background-position: 0 0
+  //     to 
+  //       background-position: 8px 8px
+
+  //   .box
+  //     background-color: #ffffff
+  //     background-image: url("data:image/svg+xml,%3Csvg%20xmlns%3D%27http%3A//www.w3.org/2000/svg%27%20width%3D%278%27%20height%3D%278%27%20viewBox%3D%270%200%208%208%27%3E%3Cg%20fill%3D%27%23000000%27%20fill-opacity%3D%271%27%3E%3Cpath%20d%3D%27M0%200h4v4H0V0zm4%204h4v4H4V4z%27/%3E%3C/g%3E%3C/svg%3E")
+  //     &:hover
+  //       animation: animProduct 1s linear infinite
 
   .box
-    .content
+
+    &:hover 
+      box-shadow: none
+    
+    &:after 
+      transition: background-size .32s linear
+
+    & > .content
       width: 100%
       height: 100%
       position: relative
       overflow: hidden
+      box-shadow: 3px 3px $black
 
-  img
-    width: 100%
+      img
+        width: 100%
+        height: 100%
   
-  .overlay
-    position: absolute
-    width: 100%
-    height: 100%
-    top: 0%
-    left: -100%
-    color: #FFF
-    background-color: rgba($black,$overlay-opacity)
-    z-index: 10
-    display: flex
-    align-items: center
+      .overlay
+        position: absolute
+        width: 100%
+        height: 100%
+        top: 0%
+        left: -100%
+        z-index: 10
+        display: flex
+        align-items: center
+        
+        .text
+          +text-stroke($color: $white)
+          text-align: center
+          color: $black
+          font-weight: 900
+          align-items: center
+          padding: 1rem 0.5rem
+          flex: 1 1 auto
+          font-size: 92px
+          opacity: 0
+          transition: font-size 0.4s ease, opacity 0.4s ease
 
-    .text
-      text-align: center
-      pointer-events: none
-      text-shadow: 2px 2px 0px rgba($black,0.81)
-      font-weight: $weight-bold
-      flex: 1 1 auto
++touch
+  .grid-item > .box > .content > .overlay
+    left: 0
+    // align-items: flex-end
