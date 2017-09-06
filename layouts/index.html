@@ -3,7 +3,7 @@
 
 {{ $paginator := .Paginate (where .Data.Pages "Type" "entry") }}
 
-<div class="grid is-loading" {{ if .Paginator.HasNext }} data-next-url="{{ .Paginator.Next.URL }}" {{ end }}>
+<div class="grid is-loading">
   {{ range $paginator.Pages }}
 
     <section 
@@ -20,6 +20,12 @@
         </div>  
       </div>
     </section>
+  {{ end }}
+
+  {{ if .Paginator.HasNext }} 
+    <div id="next" class="container is-fluid">
+      <a class="button" href="{{ .Paginator.Next.URL }}">next</a>
+    </div>  
   {{ end }}
 </div>
 
