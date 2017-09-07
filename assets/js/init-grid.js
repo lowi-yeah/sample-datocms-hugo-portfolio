@@ -73,8 +73,14 @@ function _resizeCaption(caption) {
 // if it's not already set
 function _sizeUp(element) {
   let size = element.getAttribute('size')
+
   if(size) element.setAttribute('size', size) 
-  else element.style.width = _.random(25, 50) + '%'
+  else {
+    size = _.random(25, 50) + '%'
+    if (isMobile.phone || isMobile.seven_inch ) 
+      size = '100%'
+    element.style.width = size
+  }
 }
 
 function _randomizePadding(element) {
