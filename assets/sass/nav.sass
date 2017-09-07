@@ -24,7 +24,7 @@
   $size: 64px
   width: $size
   height: $size
-  z-index: 100
+  z-index: 102
   padding: 0
   position: fixed
   top: 1rem
@@ -61,7 +61,7 @@ nav#sidebar
   +pb('lines-45-b', 16px, $white, $black, 1, 'none')
 
   position: fixed !important
-  z-index: 1023 !important
+  z-index: 100 !important
   top: 0
   right: 0
   box-shadow: -2px 0 $black
@@ -76,9 +76,21 @@ nav#sidebar
   .section 
     padding: 1rem
     flex: 1 0 auto
+    display: flex
+    align-items: center;
+    flex-direction: column;
 
-    &.links
-      padding-top: 4.5rem
+
+    &.contact
+      ul
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+
+        li
+          margin-bottom: 1rem
+
+
 
   a.title
     font-weight: 700
@@ -90,13 +102,18 @@ nav#sidebar
       color: $white
 
   a.media
-    display: flex
-    align-items: center
+    flex: 0 1 auto
     margin-bottom: 1rem
-    .icon 
-      background: $white
-      border-radius: 50%
+    display: flex;
+    align-items: center;
+    
+    .media-left
+      display: inline-block
+      .icon 
+        background: $white
+        border-radius: 50%
     .media-content
+      display: inline-block
       margin-left: 0.5rem
       +text-stroke($size: 4)
 
