@@ -183,10 +183,11 @@ export default function initGrid(menu) {
   let isotope   = new Isotope( base, {itemSelector: '.grid-item',
                                       layoutMode: 'fitRows',
                                       filter: '*' }),
-      infScroll = new InfiniteScroll( base, { path: '#next > a',
-                                              append: '.grid-item',
+      infScroll = new InfiniteScroll( base, { path:     '#next > a',
+                                              append:   '.grid-item',
                                               outlayer: isotope,
-                                              hideNav: '#next'}),
+                                              status:   '.page-load-status',
+                                              hideNav:  '#next'}),
       filters   = _initFilters(isotope, menu)
 
     // initialize the existing grid items. then re-layout
