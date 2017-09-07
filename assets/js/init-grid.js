@@ -38,15 +38,10 @@ function _captionHeight(caption, ƒSize, i) {
   if(ratioH > 1) {
     ƒSize = ƒSize * 0.81
     _setFontSize(caption, ƒSize)
-    _.delay(() => _captionHeight(caption, ƒSize, (i+1)), 100)
-  } else {
-    // console.log('caption.style', caption.style, ƒSize)
-    console.log('ƒSize', ƒSize, fontWeightΣ(ƒSize), fontWeights[fontWeightΣ(ƒSize)])
+    _.delay(() => _captionHeight(caption, ƒSize, (i+1)), 100) } 
+  else {
     caption.style.opacity = 1
-    caption.style.fontWeight = fontWeights[fontWeightΣ(ƒSize)]
-    
-  }
-}
+    caption.style.fontWeight = fontWeights[fontWeightΣ(ƒSize)] }}
 
 function _resizeCaption(caption) {
   let cw        = caption.offsetWidth,
@@ -162,26 +157,24 @@ function _initOverlay(item) {
 
 function _initFilters(isotope) {
   let base    = document.querySelector(selector),
-      filters = document.querySelectorAll('.filter input[type="checkbox"]')
+      inputs  = document.querySelectorAll('.filter input[type="checkbox"]')
   function _filter() {
-    let values = _.map(filters, checkbox => {
-                      let name = checkbox.getAttribute('filter')
-                      return {name: name, checked: checkbox.checked}})
-
-    isotope   = new Isotope( base, {itemSelector: '.grid-item',
-                                    layoutMode: 'fitRows',
-                                    filter: function(item) {
-                                      console.log('item', item)
-                                      // console.log('filters', filters)
-                                      return _.random(100) > 70
-
-                                    } }),
-    console.log('isotope', isotope)
-
-  }
-  
-  _.each(filters, ƒ => { ƒ.onchange = _filter })
+    let values    = _(inputs)
+                      .map(checkbox => {
+                        let name = checkbox.getAttribute('filter')
+                        return {name: name, checked: checkbox.checked}})
+                      .filter(({checked}) => checked)
+                      .value(),
+        filterFn  = function(item) {
+                      let category  = item.getAttribute('category'),
+                          index     = _.find(values, { name: category })
+                      return !_.isNil(index)}
+    isotope.arrange({ filter: filterFn })}
+    
+  _.each(inputs, ι => { ι.onchange = _filter }) // attach onChange handler to each checkbox
+  _filter() // filter once upon init
 }
+
 export default function initGrid() {
   let base = document.querySelector(selector);
   if (!base) return

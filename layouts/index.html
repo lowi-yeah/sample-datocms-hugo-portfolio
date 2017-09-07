@@ -4,19 +4,8 @@
 
 {{ $paginator := .Paginate (where .Data.Pages "Type" "entry") }}
 
-<pre>
-  Pages:      {{$paginator.Pages}}
-  PageNumber: {{$paginator.PageNumber}}
-  HasPrev:    {{$paginator.HasPrev}}
-  Prev:       {{$paginator.Prev}}
-</pre>
-
-
 <div class="grid">
- 
-
   {{ range $paginator.Pages }}
-
     <section 
       class="grid-item section"
       {{ with .Params.size }} size="{{ . }}" {{ end }} 
@@ -28,8 +17,10 @@
             <div class="text" > 
               {{ .Title }}
             </div>  
-            </div>
-          <img class="image" src="{{ index .Params.images 0 }}">
+          </div>
+          <div class="image">
+            <img src="{{ index .Params.images 0 }}">
+          </div>            
         </div>  
       </a>  
     </section>
