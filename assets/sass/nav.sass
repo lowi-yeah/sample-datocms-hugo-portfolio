@@ -9,10 +9,10 @@
   top:            20rem
   pointer-events: auto
 
-
 #toc.button 
-  width: 48px
-  height: 48px
+  $size: 64px
+  width: $size
+  height: $size
   z-index: 1024
   padding: 0
   position: fixed
@@ -22,7 +22,7 @@
   // border: 1px solid $red
   box-shadow: none
   background: $white
-  border-radius: 24px
+  border-radius: $size/2
   
   #iconset
     margin-top: 0
@@ -32,6 +32,12 @@
     -webkit-filter: drop-shadow( 2px 2px $white )
     filter: drop-shadow( 2px 2px $white )
 
+  &:hover
+    background: $black
+    path
+      fill: $white
+
+
 +touch
   #toc.button 
     bottom: 1rem
@@ -39,7 +45,7 @@
       
 nav#sidebar
   height: 100vh
-  width: 320px
+  width: 500px
   
   transform: translateX(100%)
   transition: transform 0.3s
@@ -49,37 +55,49 @@ nav#sidebar
   z-index: 1023 !important
   top: 0
   right: 0
+  box-shadow: -2px 0 $black
+
+  display: flex
+  flex-direction: column
+  align-content: center
 
   &.visible
     transform: translateX(0) 
 
   .section 
     padding: 1rem
+    flex: 1 0 auto
 
-  .title
+    &.links
+      padding-top: 4.5rem
+
+  a.title
     font-weight: 700
     font-variant: small-caps
-    +text-stroke()
+    +text-stroke($size: 4)
 
-  #filters
-    label
-      @extend .title
-      @extend .is-4
-      font-weight: 700
-      font-variant: small-caps
-      +text-stroke()
-      display: block
+    &:hover
+      +text-stroke($size: 4, $color: $black)      
+      color: $white
 
-    .c-wrap
-      padding-left: 0.81rem
-      margin-right: 0.5rem
+  a.media
+    display: flex
+    align-items: center
+    margin-bottom: 1rem
+    .icon 
       background: $white
+      border-radius: 50%
+    .media-content
+      margin-left: 0.5rem
+      +text-stroke($size: 4)
 
-    input[type="checkbox"]
-      width: 1.5rem
-      height: 1.5rem
-
-
+    &:hover
+      .icon 
+        background: $black
+        color: $white
+      .media-content
+        +text-stroke($size: 4, $color: $black)      
+        color: $white
 
 +mobile
   nav#sidebar

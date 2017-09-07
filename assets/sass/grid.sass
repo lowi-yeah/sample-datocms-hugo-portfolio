@@ -87,9 +87,12 @@
 
   &[emphasis] 
     .box
-      +pb('lines-45-a', 8px, $white, $red, 1, 'none')
+      +pb('lines-45-b', 8px, $white, $red, 1, 'none')
       &:hover
-        +pb('lines-45-a', 12px, $white, $red, 1, 'none')
+        +pb('lines-45-b', 36px, $white, $red, 1, 'none')
+
+      & > .content > .overlay > .text
+        +text-stroke($color: $red)
 
   // &[category="Architektur"] 
   //   .box
@@ -144,11 +147,14 @@
     &:after 
       transition: background-size .32s linear
 
+
     & > .content
       width: 100%
       height: 100%
       position: relative
       overflow: hidden
+      box-shadow: 2px 2px $black
+
 
       .image
         width: 100%
@@ -172,15 +178,14 @@
           color: $black
           font-weight: 500
           align-items: center
-          padding: 1rem 0.5rem
+          // padding: 0.5rem
+          padding: 0.25rem 0.5rem
           flex: 1 1 auto
           font-size: 92px
           opacity: 0
           transition: font-size 0.4s ease, opacity 0.4s ease
 
-+touch
-  .grid-item > .box > .content > .overlay
-    left: 0
-    .text
-      font-weight: 700
-    // align-items: flex-end
+// +touch
+//   .grid-item > .box > .content > .overlay
+//     .text
+//       align-items: flex-end

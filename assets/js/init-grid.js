@@ -5,7 +5,14 @@ import InfiniteScroll   from 'infinite-scroll'
 import {scaleLinear}    from 'd3-scale'
 import isMobile         from 'ismobilejs'
 
-function isTouchDevice() { return isMobile.phone || isMobile.seven_inch || isMobile.tablet }
+// function isTouchDevice() { 
+//   console.log('isMobile', isMobile)
+//   return isMobile.phone || isMobile.seven_inch || isMobile.tablet }
+
+function isTouchDevice() {
+  return 'ontouchstart' in window        // works on most browsers 
+      || navigator.maxTouchPoints;       // works on IE10/11 and Surface
+};
 
 // make imagesLoaded available for InfiniteScroll
 InfiniteScroll.imagesLoaded = imagesLoaded
@@ -32,8 +39,7 @@ function _captionHeight(caption, ƒSize, i) {
       ph      = caption.parentElement.parentElement.offsetHeight,
       ratioH  = ch/ph
 
-  // safety first
-  if(i > 42) return
+  if(i > 42) return // safety first
 
   if(ratioH > 1) {
     ƒSize = ƒSize * 0.81
@@ -44,6 +50,16 @@ function _captionHeight(caption, ƒSize, i) {
     caption.style.fontWeight = fontWeights[fontWeightΣ(ƒSize)] }}
 
 function _resizeCaption(caption) {
+
+  if(isTouchDevice()) {
+    _setFontSize(caption, 16)
+    caption.style.opacity         = 1
+    caption.style['align-self']   = 'flex-end'
+    caption.style['text-shadow']  = 'none'
+    // caption.style.background      = 'rgba(255, 255, 255, 0.92)'
+    caption.style.background      = 'rgb(255, 255, 255)'
+    return}
+
   let cw        = caption.offsetWidth,
       pw        = caption.parentElement.parentElement.offsetWidth,
       ratioW    = pw/cw,
@@ -56,8 +72,10 @@ function _resizeCaption(caption) {
 // helper function that randomly assigns the size attribute of an element,
 // if it's not already set
 function _sizeUp(element) {
-  let size = element.getAttribute('size') || _.random(1, 2)
-  element.setAttribute('size', size) }
+  let size = element.getAttribute('size')
+  if(size) element.setAttribute('size', size) 
+  else element.style.width = _.random(25, 50) + '%'
+}
 
 function _randomizePadding(element) {
   let width       = element.offsetWidth,
@@ -99,6 +117,11 @@ function _coordinates(self, e) {
   return {x, y} }
 
 function _initOverlay(item) {
+
+  // check if we have a touch device, if so show the text
+  if(isTouchDevice()) {
+    let overlay   = item.getElementsByClassName('overlay')[0]
+    overlay.style.left = 0 }
 
   item.onmouseenter = function(e){
     if(isTouchDevice()) return
@@ -181,8 +204,8 @@ export default function initGrid(menu) {
   if (!base) return
 
   let isotope   = new Isotope( base, {itemSelector: '.grid-item',
-                                      layoutMode: 'fitRows',
-                                      filter: '*' }),
+                                      layoutMode:   'fitRows',
+                                      filter:       '*' }),
       infScroll = new InfiniteScroll( base, { path:     '#next > a',
                                               append:   '.grid-item',
                                               outlayer: isotope,

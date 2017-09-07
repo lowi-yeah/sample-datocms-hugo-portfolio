@@ -5,29 +5,38 @@
 </button>
 
 <nav id="sidebar">
-    <section class="section has-text-centered">
-         <h1 class="title ">
-            {{ .Site.Data.settings.name }}
-          </h1>
-      </section>
-
-
-  
-    <section id="filters" class="section">
-      
-      <h1 class="title is-4">
-          Filter:
-      </h1>
-
-      {{ range .Site.Data.settings.filters  }}
-        <label class="filter checkbox">
-          <span class="c-wrap">
-            <input type="checkbox" filter="{{.}}" checked=true>
-          </span>
-          {{.}}
-        </label>
-      {{ end }}
+    <section class="links section">
+      <a class="title is-2" href="/">
+        {{ .Site.Data.settings.name }}
+       </a>
     </section>
+  
+    <section class="contact section">
+      <a class="media" target="_blank" href="https://www.google.at/maps/place/Goethestra%C3%9Fe+20,+80336+M%C3%BCnchen,+Germany/@48.136739,11.5561777,17z/data=!4m5!3m4!1s0x479e75f87e0a3cdf:0x4e771d979d68e116!8m2!3d48.136739!4d11.5583664">
+        <span class="media-left">
+          <i class="material icon is-large">location_on</i>
+        </span>
+        <p class="media-content">
+          Goethestraße 20, 80336 München
+        </p>
+      </a>
+      <a class="media"  href="tel:+498945216220">
+        <span class="media-left">
+          <i class="material icon is-large">phone</i>
+        </span>
+        <p class="media-content">
+          +498945216220
+        </p>
+      </a>
+      <a class="media" href="mailto:hallo@studio-knack.de">
+        <span class="media-left">
+          <i class="material icon is-large">mail</i>
+        </span>
+        <p class="media-content">
+          hallo@studio-knack.de
+        </p>
+      </a>
+    </footer>
 
     <!-- Hero footer: will stick at the bottom -->
    <!--  <div class="hero-foot">

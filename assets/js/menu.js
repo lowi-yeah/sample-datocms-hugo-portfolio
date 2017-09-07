@@ -43,8 +43,6 @@ function _initToc() {
 function init() {
   _initBack()
   let morpheus = _initToc()
-  console.log('morpheus', morpheus)
-  console.log('this', this)
   this.open = _.partial(_openSidebar, morpheus)
   this.close = _.partial(_closeSidebar, morpheus)
 }
