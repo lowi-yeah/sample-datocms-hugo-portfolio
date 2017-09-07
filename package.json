@@ -15,6 +15,7 @@
     "start": "dato check && concurrently -p \"[{name}]\" -c \"blue,cyan,magenta,yellow\" -k -n hugo,webpack,livereload,dato \"npm run start:hugo\" \"npm run start:assets\" \"npm run start:livereload\" \"npm run start:datocms\""
   },
   "dependencies": {
+    "animejs": "^2.0.2",
     "bulma": "^0.5.1",
     "d3-scale": "^1.0.6",
     "draggabilly": "^2.1.1",

@@ -13,6 +13,8 @@
     {{ else }}
       {{ .Site.Data.settings.seoMetaTags | safeHTML }}
     {{ end }}
+
+    {{ partial "transition-css.html" . }}
+
   </head>
-  <body>
-        
+  <body>        

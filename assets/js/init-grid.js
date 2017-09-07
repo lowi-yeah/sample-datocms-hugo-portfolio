@@ -1,9 +1,10 @@
-import _                from 'lodash'
-import imagesLoaded     from 'imagesloaded'
-import Isotope          from 'isotope'
-import InfiniteScroll   from 'infinite-scroll'
-import {scaleLinear}    from 'd3-scale'
-import isMobile         from 'ismobilejs'
+import _              from 'lodash'
+import imagesLoaded   from 'imagesloaded'
+import Isotope        from 'isotope'
+import InfiniteScroll from 'infinite-scroll'
+import {scaleLinear}  from 'd3-scale'
+import isMobile       from 'ismobilejs'
+import anime          from 'animejs'
 
 // function isTouchDevice() { 
 //   console.log('isMobile', isMobile)
@@ -134,53 +135,79 @@ function _initOverlay(item) {
 
     let {x, y}    = _coordinates(this, e),
         edge      = _closestEdge(x, y, this.clientWidth, this.clientHeight),
-        overlay   = this.getElementsByClassName('overlay')[0]
+        overlay   = this.getElementsByClassName('overlay')[0],
+        easing    = 'easeOutQuad',
+        duration  = 720
+  
   
     switch(edge){
       case 'left':
         //tween overlay from the left
         overlay.style.top = '0%'
         overlay.style.left = '-100%'
-        TweenLite.to(overlay, .5, {left: '0%'})
+        anime({ targets: overlay,
+                left: '0%',
+                easing: easing,
+                duration: duration })
         break
       case 'right':
         overlay.style.top = '0%'
         overlay.style.left = '100%'
-        //tween overlay from the right
-        TweenLite.to(overlay, .5, {left: '0%'})
+        anime({ targets: overlay,
+                left: '0%',
+                easing: easing,
+                duration: duration })
         break
       case 'top':
         overlay.style.top = '-100%'
         overlay.style.left = '0%'
-        //tween overlay from the right
-        TweenLite.to(overlay, .5, {top: '0%'})
+        anime({ targets: overlay,
+                top: '0%',
+                easing: easing,
+                duration: duration })
         break
       case 'bottom':
         overlay.style.top = '100%'
         overlay.style.left = '0%'
-        //tween overlay from the right
-        TweenLite.to(overlay, .5, {top: '0%'})
+        anime({ targets: overlay,
+                top: '0%',
+                easing: easing,
+                duration: duration })
         break}}
    
   item.onmouseleave = function(e){
     if(isTouchDevice()) return
 
-    let {x, y}  = _coordinates(this, e),
-        edge    = _closestEdge(x,y,this.clientWidth, this.clientHeight),
-        overlay = this.getElementsByClassName('overlay')[0]
+    let {x, y}    = _coordinates(this, e),
+        edge      = _closestEdge(x,y,this.clientWidth, this.clientHeight),
+        overlay   = this.getElementsByClassName('overlay')[0],
+        easing    = 'easeOutQuad',
+        duration  = 720
   
     switch(edge){
       case 'left':
-        TweenLite.to(overlay, .5, {left: '-100%'})
+        anime({ targets: overlay,
+                left: '-100%',
+                easing: easing,
+                duration: duration })
         break
       case 'right':
-        TweenLite.to(overlay, .5, {left: '100%'})
+        anime({ targets: overlay,
+                left: '100%',
+                easing: easing,
+                duration: duration })
         break
       case 'top':
-        TweenLite.to(overlay, .5, {top: '-100%'})
+        anime({ targets: overlay,
+                top: '-100%',
+                easing: easing,
+                duration: duration })
         break
       case 'bottom':
-        TweenLite.to(overlay, .5, {top: '100%'})
+        anime({ targets: overlay,
+                top: '100%',
+                easing: easing,
+                duration: duration })
         break }}
       }
 
