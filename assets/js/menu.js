@@ -1,7 +1,5 @@
 import SVGMorpheus from './lib/svg-morpheus'
 
-
-
 function _openSidebar(morpheus) {
   morpheus.to('close')
   document.getElementById('sidebar').classList.add('visible')}
@@ -34,17 +32,23 @@ function _initToc() {
   document.getElementById('toc').onclick = () => {
     if( morpheus._curIconId === 'burger') _openSidebar(morpheus)
     if( morpheus._curIconId === 'close' ) _closeSidebar(morpheus) }
+
+  return morpheus
 }
 
-function _initSidebar() {
-  let ς = document.querySelector('#sidebar')
-  if (!ς) return
- 
+// function _initSidebar() {
+  // let ς = document.querySelector('#sidebar')
+  // if (!ς) return }
 
-  }
-
-export default function() {
-  _initToc()
-  // _initSidebar()
-  _initBack() 
+function init() {
+  _initBack()
+  let morpheus = _initToc()
+  console.log('morpheus', morpheus)
+  console.log('this', this)
+  this.open = _.partial(_openSidebar, morpheus)
+  this.close = _.partial(_closeSidebar, morpheus)
 }
+
+
+export default {init}
+

@@ -1,5 +1,5 @@
 import '../sass/index.sass'
-import initMenu   from './init-menu'
+import menu       from './menu'
 import initSlider from './init-slider'
 import initGrid   from './init-grid'
 import initDetail from './init-detail'
@@ -10,8 +10,8 @@ window.goBack = function() {
   window.history.back()
 }
 
-initMenu()
-initGrid()
+menu.init()
+initGrid(menu)
 initSlider()
 initDetail()
 // initHover()

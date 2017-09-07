@@ -155,7 +155,7 @@ function _initOverlay(item) {
         break }}
       }
 
-function _initFilters(isotope) {
+function _initFilters(isotope, menu) {
   let base    = document.querySelector(selector),
       inputs  = document.querySelectorAll('.filter input[type="checkbox"]')
   function _filter() {
@@ -169,13 +169,14 @@ function _initFilters(isotope) {
                       let category  = item.getAttribute('category'),
                           index     = _.find(values, { name: category })
                       return !_.isNil(index)}
-    isotope.arrange({ filter: filterFn })}
+    isotope.arrange({ filter: filterFn })
+    menu.close()}
     
   _.each(inputs, ι => { ι.onchange = _filter }) // attach onChange handler to each checkbox
   _filter() // filter once upon init
 }
 
-export default function initGrid() {
+export default function initGrid(menu) {
   let base = document.querySelector(selector);
   if (!base) return
 
@@ -186,7 +187,7 @@ export default function initGrid() {
                                               append: '.grid-item',
                                               outlayer: isotope,
                                               hideNav: '#next'}),
-      filters   = _initFilters(isotope)
+      filters   = _initFilters(isotope, menu)
 
     // initialize the existing grid items. then re-layout
     _.each(isotope.items, item => {

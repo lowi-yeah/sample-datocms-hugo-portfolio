@@ -23,11 +23,19 @@ const toHtml = (tags) => (
 
 module.exports = (dato, root, i18n) => {
 
+  
   // Add to the existing Hugo config files some properties coming from data
   // stored on DatoCMS
   ['config.dev.toml', 'config.prod.toml'].forEach(file => {
-    root.addToDataFile(file, 'toml', {title: dato.site.globalSeo.siteName,
+    root.addToDataFile(file, 'toml', {title:        dato.site.globalSeo.siteName,
                                       languageCode: i18n.locale })})
+
+  // Categories
+  // ————————————————————————————————  
+  // load the categories and put them into the config
+  // categories are the validation-values of entry > category
+  var categoryId = '53589',
+      categories = dato.entitiesRepo.entities.field[categoryId].validators.enum.values;
 
   // Create a YAML data file to store global data about the site
   root.createDataFile('data/settings.yml', 'yaml', {
@@ -40,7 +48,8 @@ module.exports = (dato, root, i18n) => {
                       return {type: profile.profileType.toLowerCase().replace(/ +/, '-'),
                               url: profile.url }}),
     faviconMetaTags:  toHtml(dato.site.faviconMetaTags),
-    seoMetaTags:      toHtml(dato.home.seoMetaTags)})
+    seoMetaTags:      toHtml(dato.home.seoMetaTags),
+    filters:          categories })
 
 
   // Create a markdown file with content coming from the `about_page` item
@@ -49,24 +58,22 @@ module.exports = (dato, root, i18n) => {
     frontmatter: {
       title: dato.aboutPage.title,
       subtitle: dato.aboutPage.subtitle,
-      photo: dato.aboutPage.photo.url({ w: 800, fm: 'jpg', auto: 'compress' }),
+      images: dato.aboutPage.gallery.map(item => item.url({ w: 800, auto: 'compress' })),
       seoMetaTags: toHtml(dato.aboutPage.seoMetaTags),
       menu: { main: { weight: 100 } }
     },
     content: dato.aboutPage.bio
   });
 
+  
 
   // Entries
   // ————————————————————————————————
-
   // Create directory (or empty it if already exists)...
   root.directory('content/entry', dir => {
     // ...and for each entry stored online...
     dato.entries.forEach((entry, index) => {
       // ...create a markdown file with all the metadata in the frontmatter
-
-      // console.log('entry.category', entry.category)
 
       dir.createPost(`${entry.slug}.md`, 'yaml', {
         frontmatter: {
