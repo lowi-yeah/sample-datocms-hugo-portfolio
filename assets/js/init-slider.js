@@ -1,9 +1,28 @@
 import { lory } from 'lory.js';
-import imagesLoaded from 'imagesloaded';
+import imagesLoaded from 'imagesloaded'
+
+let lorySlider,
+    fps, fpsInterval, startTime, now, then, elapsed
+
+function _animate() {
+  requestAnimationFrame(_animate);
+  now = Date.now()
+  elapsed = now - then
+  if (elapsed > fpsInterval) {
+    then = now - (elapsed % fpsInterval);
+    lorySlider.next() }}
+
+function _start(fps) {
+    fpsInterval = 1000 / fps
+    then = Date.now()
+    startTime = then
+    _animate()}
 
 export default function() {
   let slider = document.querySelector('.js_slider')
   if (!slider) return
+  
   imagesLoaded(slider).on('always', () => {
-    slider.classList.remove('is-loading')
-    lory(slider, { infinite: 2, enableMouseEvents: true })})}
+    lorySlider = lory(slider, {infinite: 1, enableMouseEvents: true})
+    _start(0.16) // every five seconds
+})}
