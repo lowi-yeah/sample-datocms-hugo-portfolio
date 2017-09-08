@@ -10,13 +10,14 @@ import anime          from 'animejs'
 //   console.log('isMobile', isMobile)
 //   return isMobile.phone || isMobile.seven_inch || isMobile.tablet }
 
+// hleper function to detect whether or not the browser is touchy
 function isTouchDevice() {
-  return 'ontouchstart' in window        // works on most browsers 
-      || navigator.maxTouchPoints;       // works on IE10/11 and Surface
-};
+  return 'ontouchstart' in window // works on most browsers 
+      || navigator.maxTouchPoints } // works on IE10/11 and Surface
 
 // make imagesLoaded available for InfiniteScroll
 InfiniteScroll.imagesLoaded = imagesLoaded
+
 
 let selector        = '.grid',
     itemSelector    = '.grid > .grid-item',
@@ -50,14 +51,18 @@ function _captionHeight(caption, ƒSize, i) {
     caption.style.opacity = 1
     caption.style.fontWeight = fontWeights[fontWeightΣ(ƒSize)] }}
 
+// helper function that resises the image caption depending on
+// the container size
+// the  bigger the container, the biggger and silmmer the font
 function _resizeCaption(caption) {
 
+  // as touch devices have no hover, we don't transition the caption
+  // but render it in small text at the bottom of the container
   if(isTouchDevice()) {
     _setFontSize(caption, 16)
     caption.style.opacity         = 1
     caption.style['align-self']   = 'flex-end'
     caption.style['text-shadow']  = 'none'
-    // caption.style.background      = 'rgba(255, 255, 255, 0.92)'
     caption.style.background      = 'rgb(255, 255, 255)'
     return}
 
@@ -74,19 +79,14 @@ function _resizeCaption(caption) {
 // if it's not already set
 function _sizeUp(element) {
   let size = element.getAttribute('size')
-
   if(size) element.setAttribute('size', size) 
   else {
     size = _.random(25, 50) + '%'
-    if (isMobile.phone || isMobile.seven_inch ) 
-      size = '100%'
-    element.style.width = size
-  }
-}
+    if (isMobile.phone || isMobile.seven_inch ) size = '100%'
+    element.style.width = size } }
 
 function _randomizePadding(element) {
   let width       = element.offsetWidth,
-
       paddings    = ['padding-top', 'padding-right', 'padding-bottom', 'padding-left'],
       padding     = _.reduce(paddings, (r,d) => {
                       r[d] = _.round(_.random(width * 0.024, width * 0.16)) + 'px'
@@ -124,12 +124,9 @@ function _coordinates(self, e) {
   return {x, y} }
 
 function _initOverlay(item) {
-
-  // check if we have a touch device, if so show the text
-  if(isTouchDevice()) {
+  if(isTouchDevice()) { // check if we have a touch device, if so show the text
     let overlay   = item.getElementsByClassName('overlay')[0]
     overlay.style.left = 0 }
-
   item.onmouseenter = function(e){
     if(isTouchDevice()) return
 
@@ -138,7 +135,6 @@ function _initOverlay(item) {
         overlay   = this.getElementsByClassName('overlay')[0],
         easing    = 'easeOutQuad',
         duration  = 720
-  
   
     switch(edge){
       case 'left':
@@ -174,7 +170,6 @@ function _initOverlay(item) {
                 easing: easing,
                 duration: duration })
         break}}
-   
   item.onmouseleave = function(e){
     if(isTouchDevice()) return
 
@@ -214,6 +209,7 @@ function _initOverlay(item) {
 function _initFilters(isotope, menu) {
   let base    = document.querySelector(selector),
       inputs  = document.querySelectorAll('.filter input[type="checkbox"]')
+
   function _filter() {
     let values    = _(inputs)
                       .map(checkbox => {
@@ -226,11 +222,11 @@ function _initFilters(isotope, menu) {
                           index     = _.find(values, { name: category })
                       return !_.isNil(index)}
     isotope.arrange({ filter: filterFn })
-    menu.close()}
+    menu.close() }
     
   _.each(inputs, ι => { ι.onchange = _filter }) // attach onChange handler to each checkbox
-  _filter() // filter once upon init
-}
+  // filter once upon init
+  _filter() } 
 
 export default function initGrid(menu) {
   let base = document.querySelector(selector);
