@@ -1,5 +1,6 @@
 {{ partial "header.html" . }}
 
+
 <article class="single section">
  
   <div class="fullscreen slider js_slider">
@@ -18,6 +19,8 @@
     <div class="box">
       <p class="title is-1">{{ .Title }}</p>
       <div class="content">
+        {{ printf "%#v" $.Site }}
+
         {{ .Content }}  
       </div>
     </div>
@@ -29,12 +32,7 @@
 
 </article>
 
-<section class="navigation">
-  <a onclick="goBack()">
-    {{ partial "logo" . }}
-  </a>
-</section>
-
+{{ partial "back.html" . }}
 {{ partial "footer.html" . }}
 
 

@@ -1,5 +1,4 @@
 {{ partial "header.html" . }}
-{{ partial "sidebar.html" . }}
 {{ partial "hero.html" . }}
 
 {{ $paginator := .Paginate (where .Data.Pages "Type" "entry") }}

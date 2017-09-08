@@ -51,17 +51,16 @@ module.exports = (dato, root, i18n) => {
     seoMetaTags:      toHtml(dato.home.seoMetaTags),
     filters:          categories })
 
-
   // Create a markdown file with content coming from the `about_page` item
   // type stored in DatoCMS
   root.createPost(`content/about.md`, 'yaml', {
     frontmatter: {
-      title: dato.aboutPage.title,
-      subtitle: dato.aboutPage.subtitle,
-      images: dato.aboutPage.gallery.map(item => item.url({ w: 800, auto: 'compress' })),
-      seoMetaTags: toHtml(dato.aboutPage.seoMetaTags),
-      menu: { main: { weight: 100 } }
-    },
+      title:        dato.aboutPage.title,
+      subtitle:     dato.aboutPage.subtitle,
+      images:       dato.aboutPage.gallery.map(item => item.url({ w: 800, auto: 'compress' })),
+      seoMetaTags:  toHtml(dato.aboutPage.seoMetaTags),
+      type:         'extra',
+      layout:       'about' },
     content: dato.aboutPage.bio
   });
 
