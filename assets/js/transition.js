@@ -34,18 +34,6 @@ function _initBackButton() {
       α  = anime(ω) 
 }
 
-function _initAbout() {
-  let a = document.getElementById('about')
-  if(!a) return
-  console.log('_initAbout')
-  // let δ = _.random(400, 1200),
-  //     ε = _.sample(EASINGS),
-  //     ω = { targets:  β,
-  //           left:      '1rem',
-  //           easing:   ε,
-  //           duration: δ},
-  //     α  = anime(ω) 
-}
 
 function init() {
   // global function for navigating a step back
@@ -73,10 +61,7 @@ function init() {
             duration: TRANSITION_DURATION },
       Ϟ = ω[δ] = ρ,
       α  = anime(ω) 
-  α.complete = () => {
-    _initBackButton()
-    _initAbout()
-  }
+  α.complete = () => _initBackButton()
 }
 
 export default { init: init }
