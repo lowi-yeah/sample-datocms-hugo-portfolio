@@ -35,7 +35,6 @@ function _getFontSize(element) {
 
 function _setFontSize(element, size) { element.style.fontSize = size + 'px'}
 
-
 function _captionHeight(caption, ƒSize, i) {
   let ch      = caption.offsetHeight,
       ph      = caption.parentElement.parentElement.offsetHeight,
@@ -89,7 +88,8 @@ function _randomizePadding(element) {
   let width       = element.offsetWidth,
       paddings    = ['padding-top', 'padding-right', 'padding-bottom', 'padding-left'],
       padding     = _.reduce(paddings, (r,d) => {
-                      r[d] = _.round(_.random(width * 0.024, width * 0.16)) + 'px'
+                      // r[d] = _.round(_.random(width * 0.024, width * 0.16)) + 'px'
+                      r[d] = '0px'
                       return r }, {})
   _.each(padding, (v, k) => element.style[k] = v ) }
 
