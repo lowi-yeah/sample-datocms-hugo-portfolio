@@ -19,9 +19,9 @@ function isTouchDevice() {
 InfiniteScroll.imagesLoaded = imagesLoaded
 
 
-let selector        = '.grid',
-    itemSelector    = '.grid > .grid-item',
-    captionSelector = '.grid > .grid-item .text',
+let selector        = '.main.grid',
+    itemSelector    = '.main.grid > .grid-item',
+    captionSelector = '.main.grid > .grid-item .text',
     fontWeights     = [400, 700, 800, 900],
     fontWeightΣ     = scaleLinear()
                         .domain([64, 16])
@@ -115,7 +115,7 @@ function _coordinates(self, e) {
   function _offset({x, y}, ε) {
     x += ε.offsetLeft
     y += ε.offsetTop
-    if(ε.className.match(/^grid$/)) return {x, y}
+    if(ε.className.match(/^main grid$/)) return {x, y}
     else return _offset({x, y}, ε.parentNode) }
 
   let {x, y} = _offset({x: 0, y: 0}, self) 
@@ -129,7 +129,6 @@ function _initOverlay(item) {
     overlay.style.left = 0 }
   item.onmouseenter = function(e){
     if(isTouchDevice()) return
-
     let {x, y}    = _coordinates(this, e),
         edge      = _closestEdge(x, y, this.clientWidth, this.clientHeight),
         overlay   = this.getElementsByClassName('overlay')[0],

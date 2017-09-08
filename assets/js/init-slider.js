@@ -18,8 +18,8 @@ function _start(fps) {
     startTime = then
     _animate()}
 
-export default function() {
-  let slider = document.querySelector('.js_slider')
+export default function(selector) {
+  let slider = document.querySelector(selector)
   if (!slider) return
   
   imagesLoaded(slider).on('always', () => {

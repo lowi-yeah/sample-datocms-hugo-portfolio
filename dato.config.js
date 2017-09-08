@@ -8,6 +8,23 @@ const toHtml = (tags) => (
     htmlTag(tagName, attributes, content) )).join(''))
 
 
+function _aboutContent(item) {
+  let type = item.entity.itemType.name
+
+  if(type === 'text')   return {text: item.text}
+  if(type === 'image') { 
+    return {image: { url:   item.image.url({ w: 800, auto: 'compress' }),
+                     ratio: item.image.width/item.image.height }}}
+  if(type === 'teammember') { 
+    console.log('teammember', item.name)
+    return {
+      teammember: {
+        image:        { url:   item.image.url({ w: 800, auto: 'compress' }),
+                        ratio: item.image.width/item.image.height },
+        name:         item.name,
+        role:         item.role,
+        description:  item.description}}}}
+
 // Arguments that will receive the mapping function:
 //
 // * dato:  lets you easily access any content stored in your DatoCMS administrative area
@@ -51,20 +68,19 @@ module.exports = (dato, root, i18n) => {
     seoMetaTags:      toHtml(dato.home.seoMetaTags),
     filters:          categories })
 
+  // console.log('dato.aboutPage', dato.aboutPage.content)
+
   // Create a markdown file with content coming from the `about_page` item
   // type stored in DatoCMS
   root.createPost(`content/about.md`, 'yaml', {
     frontmatter: {
       title:        dato.aboutPage.title,
-      subtitle:     dato.aboutPage.subtitle,
       images:       dato.aboutPage.gallery.map(item => item.url({ w: 800, auto: 'compress' })),
+      content:      dato.aboutPage.content.map(item => _aboutContent(item)),
       seoMetaTags:  toHtml(dato.aboutPage.seoMetaTags),
       type:         'extra',
-      layout:       'about' },
-    content: dato.aboutPage.bio
+      layout:       'about' }
   });
-
-  
 
   // Entries
   // ————————————————————————————————
@@ -73,7 +89,6 @@ module.exports = (dato, root, i18n) => {
     // ...and for each entry stored online...
     dato.entries.forEach((entry, index) => {
       // ...create a markdown file with all the metadata in the frontmatter
-
       dir.createPost(`${entry.slug}.md`, 'yaml', {
         frontmatter: {
           title:       entry.title,

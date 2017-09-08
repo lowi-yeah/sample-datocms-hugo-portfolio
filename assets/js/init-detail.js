@@ -1,6 +1,7 @@
 import _                from 'lodash'
 import Draggabilly      from 'draggabilly'
 import isMobile         from 'ismobilejs'
+import initSlider       from './init-slider'
 
 let selector = '.draggable'
 
@@ -13,4 +14,6 @@ export default function initDetail() {
     document.querySelector(selector).style.top  = '84vh' } 
   else {
     document.querySelector(selector).style.left = _.random(64) + 'vh'
-    document.querySelector(selector).style.top  = _.random(25, 81) + 'vh' }}
+    document.querySelector(selector).style.top  = _.random(25, 81) + 'vh' }
+
+  initSlider('.single .slider') }
