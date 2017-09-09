@@ -9,6 +9,26 @@ let letters = { a: ['a', 'A', 'α', 'Λ', '🜂', 'ﾍ'],
                 t: ['t', 'T', 'Ⱦ', 'ʈ', 'ʇ', 'ͳ', 'τ', 'Г', 'Т', 'т', 'Ŧ', '⏊', '⏉', 'ŧ'],
                 u: ['u', 'U', 'ʉ', 'ṳ', '∪', '⨃']}
 
+function _getFontSize(element) {
+  let style = window.getComputedStyle(element, null).getPropertyValue('font-size')
+  return parseFloat(style)}
+
+function _setFontSize(element, size) { 
+  element.style.fontSize = size + 'px'}
+
+function _adjustSize() {
+  let head        = document.getElementById('headline'),
+      spans       = head.childNodes,
+      spaceIndex  = _.findIndex(spans, (s) => s.className === 'space'),
+      last        = spans[spaceIndex - 1],
+      width       = last.offsetLeft + last.clientWidth,
+      fontSize    = _getFontSize(last),
+      windowWidth = window.innerWidth,
+      ratio       = width/ windowWidth,
+      ηFontSize   = fontSize/ratio
+  _setFontSize(head, ηFontSize)
+}
+
 
 function _start(fps, headline) {
 
@@ -16,20 +36,21 @@ function _start(fps, headline) {
       then          = Date.now() + 4000,
       startTime     = then, now, elapsed,
       current       = _.map(headline, c => c),
-      makeHeadline  = function() {
+      setHeadline   = () => {
+                        document // set new headline
+                          .getElementById('headline')
+                          .innerHTML = _.map( current, c => {
+                            if(c === ' ') return '<span class="space"></span>'
+                            return '<span>' + c + '</span>'
+                          } ).join('') },
+      makeHeadline  = () => {
                         let index = _.random(current.length)
                         current = _.map(current, (c, ι) => {
                                       if(index === ι) {
                                         let ς = headline[ι]
                                         return _.sample(letters[ς]) || current[ι] }
                                       return c })
-                        document // set new headline
-                          .getElementById('headline')
-                          .innerHTML = _.map( current, c => {
-                            if(c === ' ') return '<span class="space"></span>'
-                            return '<span>' + c + '</span>'
-                          } )
-                                          .join('') },
+                        setHeadline() },
 
       animate     = () => {
                       requestAnimationFrame(animate)
@@ -38,9 +59,12 @@ function _start(fps, headline) {
                       if (elapsed > fpsInterval) {
                         then = now - (elapsed % fpsInterval);
                         makeHeadline() }}
-  makeHeadline()
-  animate() 
-  // makeHeadline()
+  setHeadline()
+  
+  _.defer(() => {
+    _adjustSize()
+    animate() 
+  })
 }
 
 
