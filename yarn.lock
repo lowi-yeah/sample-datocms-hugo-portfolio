@@ -2468,7 +2468,7 @@ isobject@^2.0.0:
   dependencies:
     isarray "1.0.0"
 
-isotope-layout@^3.0.4:
+isotope-layout@^3.0.0, isotope-layout@^3.0.4:
   version "3.0.4"
   resolved "https://registry.yarnpkg.com/isotope-layout/-/isotope-layout-3.0.4.tgz#f3ed8d15f8cfb3850b11777f1ca76e0a8bb5b73a"
   dependencies:
@@ -2477,6 +2477,13 @@ isotope-layout@^3.0.4:
     get-size "^2.0.0"
     masonry-layout "^4.1.0"
     outlayer "^2.1.0"
+
+isotope-packery@^2.0.0:
+  version "2.0.0"
+  resolved "https://registry.yarnpkg.com/isotope-packery/-/isotope-packery-2.0.0.tgz#5dfd2f5802e2172b904fed460d34281d60db2235"
+  dependencies:
+    isotope-layout "^3.0.0"
+    packery "^2.0.0"
 
 isstream@~0.1.2:
   version "0.1.2"
@@ -3181,7 +3188,7 @@ output-file-sync@^1.1.2:
     mkdirp "^0.5.1"
     object-assign "^4.1.0"
 
-packery@^2.1.1:
+packery@^2.0.0, packery@^2.1.1:
   version "2.1.1"
   resolved "https://registry.yarnpkg.com/packery/-/packery-2.1.1.tgz#ec3711e96562b5ae206641e06854f899064a1b55"
   dependencies:

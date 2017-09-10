@@ -1,5 +1,6 @@
 import _              from 'lodash'
 import imagesLoaded   from 'imagesloaded'
+import isotopePackery from 'isotope-packery'
 import Isotope        from 'isotope'
 import InfiniteScroll from 'infinite-scroll'
 import {scaleLinear}  from 'd3-scale'
@@ -80,7 +81,7 @@ function _sizeUp(element) {
   let size = element.getAttribute('size')
   if(size) element.setAttribute('size', size) 
   else {
-    size = _.random(25, 50) + '%'
+    size = _.sample([50, 75, 100, 33.3, 66.6]) + '%'
     if (isMobile.phone || isMobile.seven_inch ) size = '100%'
     element.style.width = size } }
 
@@ -232,7 +233,7 @@ export default function initGrid(menu) {
   if (!base) return
 
   let isotope   = new Isotope( base, {itemSelector: '.grid-item',
-                                      layoutMode:   'fitRows',
+                                      layoutMode:   'packery',
                                       filter:       '*' }),
       infScroll = new InfiniteScroll( base, { path:     '#next > a',
                                               append:   '.grid-item',

@@ -32,21 +32,12 @@
 
   @keyframes loading 
     from 
-      left: -200px
-      width: 30%
-    50% 
-      width: 30%;
-    70% 
-      width: 70%
-    80% 
-      left: 50%
-    95% 
-      left: 120%
+      width: 0%
     to 
-      left: 100%
+      width: 100%
 
   .infinite-scroll-request
-    $height: 24px
+    $height: 33vh
     height: $height
     width: 100%
     position: relative
@@ -56,8 +47,8 @@
       display: block
       position: absolute
       content: ""
-      left: -200px
-      width: 200px
+      left: 0px
+      width: 0px
       height: $height
       // background-color: #ffffff
       background-color: transparent
