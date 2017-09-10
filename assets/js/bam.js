@@ -13,8 +13,19 @@ function _addEvent(object, type, callback) {
   else if (object.attachEvent) object.attachEvent('on' + type, callback)
   else object['on'+type] = callback }
 
-// function _map(xvalue, istart, istop, ostart, ostop) {
-  // return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))}
+function _start(fps, fn) {
+  let fpsInterval   = 1000 / fps, 
+      then          = Date.now() + 2000,
+      startTime     = then, now, elapsed,
+      animate     = () => {
+                      requestAnimationFrame(animate)
+                      now = Date.now()
+                      elapsed = now - then
+                      if (elapsed > fpsInterval) {
+                        then = now - (elapsed % fpsInterval)
+                        fn() }}
+  animate() 
+}
 
 function _glyphMetrics(cut) {
   return _.reduce(cut.attributes, (ρ, α) => {
@@ -39,6 +50,8 @@ function _getGlyphs(text, selector) {
   // get the glyph for each character
   return _.map(text, c => _getGlyph(c, selector)) }
 
+
+
 function _resize() {
   let δ = { x: window.innerWidth,
             y: window.innerHeight}
@@ -50,23 +63,10 @@ function _resize() {
 function _transform(ε, {offset, scale}) {
   ε.setAttribute('transform', `matrix(${scale} 0 0 ${scale} ${offset.x} ${offset.y})`) }
 
-function _layoutLine(glyphs, index, lines) {
-  return _.reduce(glyphs, (σ, glyph) => {
-    let scale   = NORMAL / glyph.μ.height,
-        offset  = { x: σ.x + glyph.μ.left,
-                    y: NORMAL * (lines.length - index - 1) }
-    _transform(glyph.g, {offset, scale})
-    g.appendChild(glyph.g)
-    σ.x += glyph.μ.width * scale
-    return σ }, {x: 0, y: NORMAL})}
-
-function _layout() {
-  svg.innerHtml ='' // clear the current content
-
-  let δw  = _resize(),                      // window dimensions
-      δl  = _.map(glyphlines, _layoutLine), // line dimensions
-      ӎx  = _.maxBy(δl, δ => δ.x),          // max line width
-      Ʀw  = δw.x / ӎx.x                     // width ratio
+function _layoutFrame() {
+  let δw  = _resize(),                          // window dimensions
+      ӎx  = _.maxBy(glyphlines, gl => gl.δ.x),  // max line width
+      Ʀw  = δw.x / ӎx.δ.x                         // width ratio
 
   // transform only considering width
   g.setAttribute('transform', `matrix(${Ʀw} 0 0 ${Ʀw} 0 0)`)
@@ -83,8 +83,53 @@ function _layout() {
   // if the text is not as high as the screen, center the group
   else g.setAttribute('transform', `matrix(${Ʀw} 0 0 ${Ʀw} 0 ${δh})`)}
 
+function _layoutLine(glyphs, index, lines) {
+  let δ = _.reduce(glyphs, (σ, glyph) => {
+              let scale   = NORMAL / glyph.μ.height,
+                  offset  = { x: σ.x + glyph.μ.left,
+                              y: 0.81 * NORMAL * (lines.length - index - 1) }
+              _transform(glyph.g, {offset, scale})
+              g.appendChild(glyph.g)
+              σ.x += glyph.μ.width * scale
+              return σ }, {x: 0, y: NORMAL})
+  return {glyphs, δ}}
+
+function _randomGlyph(char) {
+  let ς = `#glyph-${char}`,
+      ζ = glyphsRoot.querySelector(ς),
+      η = _(ζ.childNodes)
+            .filter(n => n.nodeType === 1)
+            .sample(),
+      μ = _glyphMetrics(η)
+  return {g: η.cloneNode(true), μ: μ}}
+
+function _permuteGlyph(glyph) {
+
+  if(_.random(100) > 1) return glyph
+  return _randomGlyph(glyph.μ.char)
+}
+
+
+function _update(initial) {
+  if(initial)
+    glyphlines  = _(lines)
+                    .map(l => _getGlyphs(l, {font: 'UniversLTStd-XBlack'}))
+                    .map(_layoutLine)
+                    .value()  
+  else {
+    // clear existing divs
+    while (g.hasChildNodes()) g.removeChild(g.lastChild)
+
+    glyphlines  = _(glyphlines)
+                  .map(gl => _.map(gl.glyphs, _permuteGlyph))
+                  .map(_layoutLine)
+                  .value()  
+    // console.log('glyphlines', glyphlines)
+  }
+}
+
+
 function init() {
-  console.log('init bam')
   // check that the hero element exists
   hero = document.getElementById(HERO_ROOT)
   if(!hero) return
@@ -94,14 +139,13 @@ function init() {
   g           = svg.querySelector(G)
   text        = 'studio knack'
   lines       = text.split(/\s/)
+  
+  _update(true)
+  _layoutFrame()
 
-  // get the glyphs for all lines for the given fontselector
-  glyphlines  = _.map(lines, l => _getGlyphs(l, {font: 'UniversLTStd-Bold'}))
+  _start(5, _update)
 
-  _layout()
-  // _start(1, headline.textContent.trim())
-
-  _addEvent(window, 'resize', _.debounce(_layout, 150))
+  _addEvent(window, 'resize', _.debounce(_layoutFrame, 150))
 }
 
 
