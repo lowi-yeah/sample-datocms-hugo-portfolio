@@ -24,8 +24,8 @@ function _adjustSize() {
       width       = last.offsetLeft + last.clientWidth,
       fontSize    = _getFontSize(last),
       windowWidth = window.innerWidth,
-      ratio       = width/ windowWidth,
-      ηFontSize   = fontSize/ratio
+      ratio       = 0.81 * windowWidth / width,
+      ηFontSize   = fontSize * ratio
   _setFontSize(head, ηFontSize)
 }
 
@@ -33,7 +33,7 @@ function _adjustSize() {
 function _start(fps, headline) {
 
   let fpsInterval   = 1000 / fps, 
-      then          = Date.now() + 4000,
+      then          = Date.now() + 2000,
       startTime     = then, now, elapsed,
       current       = _.map(headline, c => c),
       setHeadline   = () => {
@@ -69,8 +69,9 @@ function _start(fps, headline) {
 
 
 function init() {
-  let headline = document.getElementById('headline').textContent.trim()
-  _start(1, headline)
+  let headline = document.getElementById('headline')
+  if(!headline) return
+  _start(1, headline.textContent.trim())
 }
 
 
