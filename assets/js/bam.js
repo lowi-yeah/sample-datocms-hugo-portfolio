@@ -4,9 +4,8 @@ let HERO_ROOT   = 'hero',
     SVG_ROOT    = 'bam',
     G           = '.glyphs',
     NORMAL      = 1000,
-
-    characters, glyphs,
-    hero, glyphsRoot, svg, g
+    hero, glyphsRoot, svg, g,
+    text, lines, glyphlines
 
 function _addEvent(object, type, callback) {
   if (object == null || typeof(object) == 'undefined') return
@@ -17,26 +16,28 @@ function _addEvent(object, type, callback) {
 // function _map(xvalue, istart, istop, ostart, ostop) {
   // return ostart + (ostop - ostart) * ((value - istart) / (istop - istart))}
 
-function _getGlyphCuts(char) {
-  let inner = _(glyphsRoot.childNodes)
-                .find(ε => ε.id === ('glyph-' + char)) 
-                .childNodes
-  return _.filter(inner, ι => ι.nodeType === 1)}
-
 function _glyphMetrics(cut) {
   return _.reduce(cut.attributes, (ρ, α) => {
               ρ[α.name] = _.isNaN(parseFloat(α.value)) ? α.value : parseFloat(α.value)
               return ρ }, {})}
 
-function _getGlyph(char, index) {
-  let cuts    = _getGlyphCuts(char),
-      cut     = cuts[index],
-      metrics = _glyphMetrics(cut)
-  return {g: cut, μ: metrics} }
+function _getGlyphCuts(char) {
+  let nodes = _(glyphsRoot.childNodes)
+                .find(ε => ε.id === ('glyph-' + char)) 
+                .childNodes
+  return  _(nodes)
+            .filter(ι => ι.nodeType === 1)
+            .map(g => {return {g: g.cloneNode(true), μ: _glyphMetrics(g)}})
+            .value() }
 
-function _dimensions() {
-  return 
-}
+function _getGlyph(char, selector) {
+  let cuts    = _getGlyphCuts(char),
+      cut     = _.find(cuts, ({μ}) => _.reduce(selector, (ρ, v, k) => ρ && (μ[k] === v), true))
+  return cut }
+
+function _getGlyphs(text, selector) {
+  // get the glyph for each character
+  return _.map(text, c => _getGlyph(c, selector)) }
 
 function _resize() {
   let δ = { x: window.innerWidth,
@@ -47,41 +48,40 @@ function _resize() {
   return δ }
 
 function _transform(ε, {offset, scale}) {
-  // console.log('_transform')
-  // console.log('\t offset', offset)
-  // console.log('\t scale', scale)
-  ε.setAttribute('transform', `matrix(${scale} 0 0 ${scale} ${scale * offset.x} ${scale * offset.y})`)
-}
+  ε.setAttribute('transform', `matrix(${scale} 0 0 ${scale} ${offset.x} ${offset.y})`) }
+
+function _layoutLine(glyphs, index, lines) {
+  return _.reduce(glyphs, (σ, glyph) => {
+    let scale   = NORMAL / glyph.μ.height,
+        offset  = { x: σ.x + glyph.μ.left,
+                    y: NORMAL * (lines.length - index - 1) }
+    _transform(glyph.g, {offset, scale})
+    g.appendChild(glyph.g)
+    σ.x += glyph.μ.width * scale
+    return σ }, {x: 0, y: NORMAL})}
 
 function _layout() {
-  // console.log('_layout', glyphs)
-  let δw = _resize()
   svg.innerHtml ='' // clear the current content
-  
-  let δg = _.reduce(glyphs, (σ, glyph) => {
-    // console.log('μ', glyph.μ)
-    // console.log('g', glyph.g)
-    let offset  = { x: σ.x + glyph.μ.left,
-                    y: 0 },
-        scale   = NORMAL / glyph.μ.height 
-    
-    _transform(glyph.g, {offset, scale})
 
-    g.appendChild(glyph.g)
-    σ.x += glyph.μ.width
-    return σ
-  }, {x: 0, y: NORMAL})
+  let δw  = _resize(),                      // window dimensions
+      δl  = _.map(glyphlines, _layoutLine), // line dimensions
+      ӎx  = _.maxBy(δl, δ => δ.x),          // max line width
+      Ʀw  = δw.x / ӎx.x                     // width ratio
 
-  // δw contains the window dimensions
-  // δg contains the bounding box dimensions of all the glyphs
-  let ratioW = δw.x / δg.x
-  console.log('δw', δw, 'δg', δg, ratioW)
-  g.setAttribute('transform', `matrix(${ratioW} 0 0 ${ratioW} 0 0)`)
+  // transform only considering width
+  g.setAttribute('transform', `matrix(${Ʀw} 0 0 ${Ʀw} 0 0)`)
 
+  // …aftwerwards
+  // get the height of the glyphs group
+  // and compare it to the window height
+  let h   = g.getBBox().height * Ʀw,
+      Ʀh  = h / δw.y,
+      δh  = (δw.y - h)/2
 
-
-
-}
+  // if the text is higher than the screen, re-scale the group
+  if(Ʀh > 1) g.setAttribute('transform', `matrix(${Ʀw/Ʀh} 0 0 ${Ʀw/Ʀh} 0 0)`)
+  // if the text is not as high as the screen, center the group
+  else g.setAttribute('transform', `matrix(${Ʀw} 0 0 ${Ʀw} 0 ${δh})`)}
 
 function init() {
   console.log('init bam')
@@ -92,11 +92,11 @@ function init() {
   glyphsRoot  = document.getElementById(GLYPHS_ROOT)
   svg         = document.getElementById(SVG_ROOT)
   g           = svg.querySelector(G)
-  characters  = 'knac'
+  text        = 'studio knack'
+  lines       = text.split(/\s/)
 
-  // find a glyph for each character
-  // upon init always take the first fontface
-  glyphs      = _.map(characters, c => _getGlyph(c, 0))
+  // get the glyphs for all lines for the given fontselector
+  glyphlines  = _.map(lines, l => _getGlyphs(l, {font: 'UniversLTStd-Bold'}))
 
   _layout()
   // _start(1, headline.textContent.trim())

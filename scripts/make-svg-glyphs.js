@@ -5,6 +5,8 @@ import fontkit  from 'fontkit'
 import fs       from 'fs'
 import path     from 'path'
 
+let BASE_FONT = 'UniversLTStd-Bold'
+
 // console.log('lodash', _.random(3), repl)
 console.log('hello text!')
 
@@ -16,15 +18,16 @@ function write(path, content) {
     // success case, the file was saved
     console.log('svg saved!')})}
 
-function _makePath({font, metrics, d, char}) {
+function _makePath(ƒ) {
   return  '    <g ' +
-            'font="'    + font + '" ' + 
-            'char="'    + char + '" ' + 
-            'width="'   + metrics.advanceWidth + '" ' + 
-            'height="'  + metrics.advanceHeight + '" '+ 
-            'left="'    + metrics.leftBearing + '" '+ 
-            'top="'     + metrics.topBearing + '" >'+ 
-            '\n      <path d="' + d + '" />\n'+ 
+            (ƒ.base ? ('base="' + ƒ.base + '" ') : '') + 
+            'font="'    + ƒ.name + '" ' + 
+            'char="'    + ƒ.char + '" ' + 
+            'width="'   + ƒ.metrics.advanceWidth + '" ' + 
+            'height="'  + ƒ.metrics.advanceHeight + '" '+ 
+            'left="'    + ƒ.metrics.leftBearing + '" '+ 
+            'top="'     + ƒ.metrics.topBearing + '" >'+ 
+            '\n      <path d="' + ƒ.d + '" />\n'+ 
           '    </g>'}
 
 
@@ -43,9 +46,10 @@ function _makeSvg(fontGlyphs) {
 function getGlyphForFonts(char, fonts) { 
   let glyphs  = _.map(fonts, font => {
                         let run   = font.layout(char)
-                        return {font:     font.postscriptName, 
+                        return {name:     font.postscriptName, 
                                 metrics:  run.glyphs[0]._metrics,
                                 char:     char,
+                                base:     font.postscriptName === BASE_FONT,
                                 d:        run.glyphs[0].path.toSVG()}})
   return {char: char,
           glyphs: _.map(glyphs, _makePath)} }
@@ -65,13 +69,13 @@ function read(dir) {
 
 let fontsPaths  = read('./resources/fonts').filter(p => p.match(/.*[(otf)|(ttf)]$/)),
     fonts       = _.map(fontsPaths, f => fontkit.openSync(f)),
-    chars       = 'knac',
+    chars       = 'studioknac',
     fontGlyphs  = _.map(chars, c => getGlyphForFonts(c, fonts)),
     svg         = _makeSvg(fontGlyphs)
 
-// console.log('glyphs', fontGlyphs)
+// console.log('fonts', fonts)
 
-write('./layouts//partials/glyphs.svg', svg)
+write('./layouts/partials/glyphs.svg', svg)
 
 
 
