@@ -1,3 +1,4 @@
+import filters from './bam-filters'
 
 let HERO_ROOT   = 'hero',
     GLYPHS_ROOT = 'glyphs',
@@ -79,14 +80,19 @@ function _layoutFrame() {
       δh  = (δw.y - h)/2
 
   // if the text is higher than the screen, re-scale the group
-  if(Ʀh > 1) g.setAttribute('transform', `matrix(${Ʀw/Ʀh} 0 0 ${Ʀw/Ʀh} 0 0)`)
+  if(Ʀh > 1) {
+    Ʀw = Ʀw/Ʀh
+    g.setAttribute('transform', `matrix(${Ʀw} 0 0 ${Ʀw} 0 0)`) }
   // if the text is not as high as the screen, center the group
-  else g.setAttribute('transform', `matrix(${Ʀw} 0 0 ${Ʀw} 0 ${δh})`)}
+  else g.setAttribute('transform', `matrix(${Ʀw} 0 0 ${Ʀw} 0 ${δh})`)
+
+  return Ʀw }
 
 function _layoutLine(glyphs, index, lines) {
   let δ = _.reduce(glyphs, (σ, glyph) => {
-              let scale   = NORMAL / glyph.μ.height,
-                  offset  = { x: σ.x + glyph.μ.left,
+              let /*scale   = 1,*/
+                  scale   = NORMAL / glyph.μ.height,
+                  offset  = { x: σ.x /*+ glyph.μ.left*/,
                               y: 0.72 * NORMAL * (lines.length - index - 1) }
               _transform(glyph.g, {offset, scale})
               g.appendChild(glyph.g)
@@ -121,25 +127,25 @@ function _update(initial) {
                   .map(_layoutLine)
                   .value() }}
 
+function _initGlyphs() {
+  glyphsRoot  = document.getElementById(GLYPHS_ROOT)
+  svg         = document.getElementById(SVG_ROOT)
+  g           = svg.querySelector(G)
+  text        = 'STUDIO KNACK'
+  lines       = text.split(/\s/)
+  
+  _addEvent(window, 'resize', _.debounce(_layoutFrame, 150))
+  _update(true)
+  _start(10, _update)
+  return _layoutFrame() }
 
 function init() {
   // check that the hero element exists
   hero = document.getElementById(HERO_ROOT)
   if(!hero) return
 
-  glyphsRoot  = document.getElementById(GLYPHS_ROOT)
-  svg         = document.getElementById(SVG_ROOT)
-  g           = svg.querySelector(G)
-  text        = 'studio knack'
-  lines       = text.split(/\s/)
-  
-  _update(true)
-  _layoutFrame()
-
-  _start(10, _update)
-
-  _addEvent(window, 'resize', _.debounce(_layoutFrame, 150))
-}
+  let scale = _initGlyphs()
+  filters.init(scale) }
 
 
 export default { init: init }

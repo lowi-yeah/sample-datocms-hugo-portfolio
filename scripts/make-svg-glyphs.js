@@ -69,7 +69,7 @@ function read(dir) {
 
 let fontsPaths  = read('./resources/fonts').filter(p => p.match(/.*[(otf)|(ttf)]$/)),
     fonts       = _.map(fontsPaths, f => fontkit.openSync(f)),
-    chars       = 'studioknac',
+    chars       = 'STUDIOKNAC',
     fontGlyphs  = _.map(chars, c => getGlyphForFonts(c, fonts)),
     svg         = _makeSvg(fontGlyphs)
 
