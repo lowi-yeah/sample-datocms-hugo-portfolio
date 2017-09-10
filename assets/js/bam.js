@@ -87,7 +87,7 @@ function _layoutLine(glyphs, index, lines) {
   let δ = _.reduce(glyphs, (σ, glyph) => {
               let scale   = NORMAL / glyph.μ.height,
                   offset  = { x: σ.x + glyph.μ.left,
-                              y: 0.81 * NORMAL * (lines.length - index - 1) }
+                              y: 0.72 * NORMAL * (lines.length - index - 1) }
               _transform(glyph.g, {offset, scale})
               g.appendChild(glyph.g)
               σ.x += glyph.μ.width * scale
@@ -104,11 +104,8 @@ function _randomGlyph(char) {
   return {g: η.cloneNode(true), μ: μ}}
 
 function _permuteGlyph(glyph) {
-
   if(_.random(100) > 1) return glyph
-  return _randomGlyph(glyph.μ.char)
-}
-
+  return _randomGlyph(glyph.μ.char)}
 
 function _update(initial) {
   if(initial)
@@ -119,14 +116,10 @@ function _update(initial) {
   else {
     // clear existing divs
     while (g.hasChildNodes()) g.removeChild(g.lastChild)
-
     glyphlines  = _(glyphlines)
                   .map(gl => _.map(gl.glyphs, _permuteGlyph))
                   .map(_layoutLine)
-                  .value()  
-    // console.log('glyphlines', glyphlines)
-  }
-}
+                  .value() }}
 
 
 function init() {
@@ -143,7 +136,7 @@ function init() {
   _update(true)
   _layoutFrame()
 
-  _start(5, _update)
+  _start(10, _update)
 
   _addEvent(window, 'resize', _.debounce(_layoutFrame, 150))
 }
