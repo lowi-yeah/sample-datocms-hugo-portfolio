@@ -28,21 +28,11 @@ function _y() {
 }
 
 function init(scale) { 
-  console.log('init filters', scale) 
-  console.log('filter', filter) 
-  console.log('glyphs', glyphs.getBBox().height) 
-
+  // console.log('init filters', scale) 
+  // console.log('filter', filter) 
+  // console.log('glyphs', glyphs.getBBox().height) 
   _height()
   _y()
-
-  // anime({
-  //   targets:    '#bam-filter feFlood',
-  //   y:          glyphs.getBBox().height,
-  //   loop:       true,
-  //   duration:   1800,
-  //   easing:     'easeInOutSine'
-  // })
-
 }
 
 export default { init: init }

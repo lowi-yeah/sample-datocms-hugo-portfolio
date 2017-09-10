@@ -1,5 +1,5 @@
 baseurl = "/"
-Paginate = 5
+Paginate = 12
 [params]
   env = "production"
 [[menu.main]]

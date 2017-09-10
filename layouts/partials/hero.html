@@ -18,21 +18,23 @@
     
         <feMerge result="merge1">
           <feMergeNode in = "black" />
-          <!-- <feMergeNode in = "comp1" /> -->
+          <feMergeNode in = "comp1" />
+          <feMergeNode in = "comp2" />
           <feMergeNode in = "comp3" />
-          <!-- <feMergeNode in = "off1b" /> -->
         </feMerge>
     
         <feMerge result="merge2">
           <feMergeNode in="black" />
-          <feMergeNode in="comp2" />
+          <feMergeNode in = "comp1" />
+          <feMergeNode in = "comp2" />
+          <feMergeNode in = "comp3" />
           <feMergeNode in = "off2b" />
         </feMerge>
         
         <feMerge >
           <feMergeNode in="SourceGraphic" />  
            
-          <feMergeNode in="merge1" />
+          <!-- <feMergeNode in="merge1" /> -->
           <feMergeNode in="merge2" />
 
         </feMerge>

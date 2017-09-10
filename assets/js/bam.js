@@ -110,7 +110,7 @@ function _randomGlyph(char) {
   return {g: η.cloneNode(true), μ: μ}}
 
 function _permuteGlyph(glyph) {
-  if(_.random(100) > 1) return glyph
+  if(_.random(1000) > 4) return glyph
   return _randomGlyph(glyph.μ.char)}
 
 function _update(initial) {
@@ -127,11 +127,23 @@ function _update(initial) {
                   .map(_layoutLine)
                   .value() }}
 
+function _makeText() {
+  
+
+  let w = window.innerWidth,
+      h = window.innerHeight,
+      r = w / h
+  if(r > 1.4) return 'STUDIO KNACK'
+  if(r > 0.8) return 'STUD IOKN ACK'
+  if(r > 0.6) return 'STU DIO KNA CK'
+  return 'ST UDI OK NA CK'
+}
+
 function _initGlyphs() {
   glyphsRoot  = document.getElementById(GLYPHS_ROOT)
   svg         = document.getElementById(SVG_ROOT)
   g           = svg.querySelector(G)
-  text        = 'STUDIO KNACK'
+  text        = _makeText()
   lines       = text.split(/\s/)
   
   _addEvent(window, 'resize', _.debounce(_layoutFrame, 150))
