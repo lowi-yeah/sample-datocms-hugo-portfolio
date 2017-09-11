@@ -25,8 +25,7 @@ function _start(fps, fn) {
                       if (elapsed > fpsInterval) {
                         then = now - (elapsed % fpsInterval)
                         fn() }}
-  animate() 
-}
+  animate() }
 
 function _glyphMetrics(cut) {
   return _.reduce(cut.attributes, (ρ, α) => {
@@ -50,8 +49,6 @@ function _getGlyph(char, selector) {
 function _getGlyphs(text, selector) {
   // get the glyph for each character
   return _.map(text, c => _getGlyph(c, selector)) }
-
-
 
 function _resize() {
   let δ = { x: window.innerWidth,
@@ -128,16 +125,13 @@ function _update(initial) {
                   .value() }}
 
 function _makeText() {
-  
-
   let w = window.innerWidth,
       h = window.innerHeight,
       r = w / h
   if(r > 1.4) return 'STUDIO KNACK'
   if(r > 0.8) return 'STUD IOKN ACK'
   if(r > 0.6) return 'STU DIO KNA CK'
-  return 'ST UDI OK NA CK'
-}
+  return 'ST UDI OK NA CK' }
 
 function _initGlyphs() {
   glyphsRoot  = document.getElementById(GLYPHS_ROOT)
@@ -157,7 +151,8 @@ function init() {
   if(!hero) return
 
   let scale = _initGlyphs()
-  filters.init(scale) }
+  // filters.init(scale) 
+}
 
 
 export default { init: init }
